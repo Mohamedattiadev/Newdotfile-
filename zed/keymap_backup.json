@@ -1,0 +1,59 @@
+// Zed keymap.json
+// To apply, place this in ~/.config/zed/keymap.json
+[
+  {
+    "context": "VimControl && !VimWaiting",
+    "bindings": {
+      // Leader key (space)
+      "space": "VimSend:<leader>",
+
+      // Pane navigation
+      "ctrl-h": "pane::ActivatePrev",
+      "ctrl-l": "pane::ActivateNext",
+      "ctrl-k": "pane::ActivatePrev",
+      "ctrl-j": "pane::ActivateNext",
+
+      // Switch tabs
+      "shift-l": "pane::ActivateNextItem",
+      "shift-h": "pane::ActivatePrevItem",
+
+      // Search and diagnostics
+      "/": "editor::Find",
+      "space d": "diagnostics::Deploy",
+
+      // File and pane management
+      "space space": "file_finder::Toggle",
+      "space w": "file::Save",
+      "space e": "project_panel::ToggleFocus",
+      "space q": "pane::CloseActiveItem",
+
+      // Splitting panes
+      "space leader v": "pane::Split",
+      "space leader h": "pane::Split { \"axis\": \"horizontal\" }",
+
+      // Terminal management
+      "space t t": "terminal_panel::ToggleFocus",
+      "space t n": "workspace::NewTerminal",
+
+      // Code actions
+      "shift-k": "editor::ShowHover",
+      "space g f": "editor::Format",
+      "space g d": "editor::GoToDefinition",
+
+      // Clear search highlight
+      "space n n": "search::Clear"
+    }
+  },
+  {
+    "context": "VimVisual",
+    "bindings": {
+      // Indentation in visual mode
+      ">": "editor::Indent",
+      "<": "editor::Outdent",
+
+      // Move lines up/down in visual mode
+      "J": "editor::MoveLineDown",
+      "K": "editor::MoveLineUp"
+    }
+  }
+]

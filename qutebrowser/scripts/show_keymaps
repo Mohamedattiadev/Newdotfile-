@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import ast
+import os
+import subprocess
+
+# --- Configuration ---
+CONFIG_FILE = os.path.expanduser("~/.config/qutebrowser/config.py")
+
+def parse_qute_keymaps(config_path):
+    """Parse config.py and return a list of keymaps (mode, key, command). Only bind entries."""
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            tree = ast.parse(f.read())
+    except Exception as e:
+        print(f"Error reading config: {e}")
+        return []
+
+    keymaps = []
+
+    for node in ast.walk(tree):
+        # Only look for function calls
+        if isinstance(node, ast.Call) and hasattr(node.func, "attr"):
+            func_name = node.func.attr
+            if func_name != "bind":
+                continue  # skip unbind
+
+            # Default mode
+            mode = "normal"
+            for kw in node.keywords:
+                if kw.arg == "mode":
+                    if isinstance(kw.value, ast.Str):
+                        mode = kw.value.s
+                    elif isinstance(kw.value, ast.Constant):
+                        mode = kw.value.value
+
+            # Key
+            key = ""
+            if node.args and isinstance(node.args[0], (ast.Str, ast.Constant)):
+                key = node.args[0].s if isinstance(node.args[0], ast.Str) else node.args[0].value
+
+            # Command
+            cmd = ""
+            if len(node.args) > 1 and isinstance(node.args[1], (ast.Str, ast.Constant)):
+                cmd = node.args[1].s if isinstance(node.args[1], ast.Str) else node.args[1].value
+
+            keymaps.append((mode, key, cmd))
+
+    return keymaps
+
+def show_rofi(keymaps):
+    """Show keymaps in Rofi dmenu."""
+    if not keymaps:
+        subprocess.run(["notify-send", "Qute Keymaps", "No keymaps found."])
+        return
+
+    # Format lines: [mode] key → command
+    lines = [f"[{mode}] {key.ljust(12)} → {cmd}" for mode, key, cmd in keymaps]
+
+    rofi_cmd = [
+        "rofi", "-dmenu", "-i", "-p", "Qute Keymaps",
+        "-theme-str", "window {width: 50%;}",
+        "-theme-str", "listview {lines: 10;}"
+    ]
+
+    subprocess.run(rofi_cmd, input="\n".join(lines), text=True)
+
+if __name__ == "__main__":
+    keymaps = parse_qute_keymaps(CONFIG_FILE)
+    show_rofi(keymaps)

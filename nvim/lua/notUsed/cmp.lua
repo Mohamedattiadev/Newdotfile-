@@ -1,0 +1,105 @@
+return {
+  -- "hrsh7th/nvim-cmp",
+  -- dependencies = {
+  --   -- Core sources
+  --   "hrsh7th/cmp-buffer", -- source for text in buffer
+  --   "hrsh7th/cmp-path", -- source for file system paths
+  --   "hrsh7th/cmp-nvim-lsp", -- ADDED: you need this for LSP completions
+  --
+  --   -- Snippet Engine & sources
+  --   {
+  --     "L3MON4D3/LuaSnip",
+  --     version = "v2.*",
+  --     build = "make install_jsregexp",
+  --   },
+  --   "saadparwaiz1/cmp_luasnip", -- for autocompletion
+  --   "rafamadriz/friendly-snippets", -- useful snippets
+  --
+  --   -- UI/UX
+  --   "onsails/lspkind.nvim", -- vs-code like pictograms
+  --
+  --   -- AI Companion (ensure you add the plugin itself)
+  --   "Exafunction/codeium.nvim",
+  -- },
+  -- config = function()
+  --   local cmp = require("cmp")
+  --   local luasnip = require("luasnip")
+  --   local lspkind = require("lspkind")
+  --
+  --   -- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
+  --   require("luasnip.loaders.from_vscode").lazy_load()
+  --
+  --   cmp.setup({
+  --     -- Enable borders on completion and documentation windows
+  --     window = {
+  --       completion = cmp.config.window.bordered(),
+  --       documentation = cmp.config.window.bordered(),
+  --     },
+  --
+  --     snippet = {
+  --       expand = function(args)
+  --         luasnip.lsp_expand(args.body)
+  --       end,
+  --     },
+  --     -- Replace your current 'mapping' table with this one
+  --     mapping = {
+  --       ["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+  --       ["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+  --       ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+  --       ["<C-f>"] = cmp.mapping.scroll_docs(4),
+  --       ["<C-Space>"] = cmp.mapping.complete(),
+  --       ["<C-e>"] = cmp.mapping.abort(),
+  --       ["<CR>"] = cmp.mapping.confirm({
+  --         behavior = cmp.ConfirmBehavior.Insert,
+  --         select = true,
+  --       }),
+  --
+  --       -- NEW MAPPING: Tab to show/accept completions
+  --
+  --       ["<Tab>"] = cmp.mapping(function(fallback)
+  --         if cmp.visible() then
+  --           cmp.confirm({ select = true })
+  --         else
+  --           cmp.complete()
+  --         end
+  --       end, { "i", "s" }),
+  --       -- You may want Shift-Tab to select the previous item
+  --       ["<S-Tab>"] = cmp.mapping(function(fallback)
+  --         if cmp.visible() then
+  --           cmp.select_prev_item()
+  --         else
+  --           fallback()
+  --         end
+  --       end, { "i", "s" }),
+  --     },
+  --
+  --     -- sources for autocompletion, now in priority groups
+  --     sources = cmp.config.sources({
+  --       { name = "nvim_lsp" },
+  --       { name = "luasnip" },
+  --       { name = "codeium" }, -- Make sure to run :Codeium Auth
+  --     }, {
+  --       { name = "buffer" },
+  --       { name = "path" },
+  --     }),
+  --
+  --     -- configure lspkind for vs-code like pictograms in completion menu
+  --     formatting = {
+  --       format = lspkind.cmp_format({
+  --         maxwidth = 50,
+  --         ellipsis_char = "...",
+  --         -- Show source name for each completion item
+  --         with_text = true,
+  --         menu = {
+  --           nvim_lsp = "[LSP]",
+  --           luasnip = "[Snippet]",
+  --           supermaven = "[Maven]",
+  --           codeium = "[AI]",
+  --           buffer = "[Buffer]",
+  --           path = "[Path]",
+  --         },
+  --       }),
+  --     },
+  --   })
+  -- end,
+}

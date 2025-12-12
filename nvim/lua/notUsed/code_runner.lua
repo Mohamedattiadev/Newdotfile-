@@ -1,0 +1,38 @@
+return {
+  -- {
+  --   "CRAG666/code_runner.nvim",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim", -- Add plenary.nvim as a dependency
+  --   },
+  --
+  --   config = function()
+  --     require("code_runner").setup({
+  --       mode = "toggleterm", -- Use toggleterm for running code
+  --       focus = true, -- Focus on the terminal when running code
+  --       filetype = {
+  --         python = "python3 -u", -- Run Python files
+  --         javascript = "node", -- Run JavaScript files
+  --         typescript = "ts-node", -- Run TypeScript files
+  --         java = "javac {file} && java {filebasename}", -- Compile and run Java files
+  --         cpp = "g++ {file} -o {filebasename} && ./{filebasename}", -- Compile and run C++ files
+  --         go = "go run", -- Run Go files
+  --         rust = "cargo run", -- Run Rust files
+  --         sh = "bash", -- Run shell scripts
+  --         lua = "lua", -- Run Lua files
+  --       },
+  --     })
+  --   end,
+  -- },
+  --
+  -- {
+  --   "akinsho/toggleterm.nvim", -- Install toggleterm.nvim for terminal management
+  --   config = function()
+  --     require("toggleterm").setup({
+  --       size = 10, -- Set the terminal size to 10 (it will stay fixed at 10)
+  --       open_mapping = [[<c-\>]], -- Set the key mapping to open the terminal
+  --       hide_numbers = true, -- Hide the terminal number in the window
+  --       persist_size = true, -- Ensure the terminal size persists when reopened
+  --     })
+  --   end,
+  -- },
+}

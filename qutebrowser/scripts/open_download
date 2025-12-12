@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# === Configuration ===
+DOWNLOAD_DIR="${DOWNLOAD_DIR:-${QUTE_DOWNLOAD_DIR:-$HOME/Downloads}}"
+ROFI_CMD="${ROFI_CMD:-rofi}"
+ROFI_THEME="${ROFI_THEME:-}"
+ROFI_ARGS="${ROFI_ARGS:- -markup-rows}"
+QUTE_MODE="${QUTE_FIFO:-}"
+
+# Colors
+NAME_COLOR="#8BE9FD"
+SIZE_COLOR="#FFB86C"
+
+# --- Messages ---
+msg() {
+    local type="$1"
+    shift
+    local message="$*"
+    [[ -n "$QUTE_MODE" ]] && echo "message-$type '${message//\'/\\\'}'" >> "$QUTE_MODE" || echo "$type: $message" >&2
+}
+
+die() {
+    msg error "$*"
+    [[ -n "$QUTE_MODE" ]] && exit 0 || exit 1
+}
+
+# --- File type logic ---
+open_file_custom() {
+    local path="$1"
+    local file="${path##*/}"
+    case "$file" in
+        *.txt|*.md|*.sh|*.py|*.js|*.conf|*.ini|*.c|*.cpp|*.json|*.toml|*.yaml)
+            msg info "Opening $file with nvim"
+            alacritty -e nvim "$path" & ;;
+        *.mp4|*.mkv|*.avi|*.mp3|*.wav|*.flac)
+            msg info "Opening $file with mpv"
+            mpv "$path" & ;;
+        *)
+            msg info "Opening $file with nvim (fallback)"
+            alacritty -e nvim "$path" & ;;
+    esac
+}
+
+# --- Size formatting ---
+human_readable() {
+    local bytes=$1
+    if ((bytes >= 1073741824)); then printf "%.1f GB" "$((${bytes} / 1073741824))"
+    elif ((bytes >= 1048576)); then printf "%.1f MB" "$((${bytes} / 1048576))"
+    elif ((bytes >= 1024)); then printf "%.1f KB" "$((${bytes} / 1024))"
+    else echo "${bytes} B"; fi
+}
+
+# --- Build file list ---
+mapfile -t files < <(find "$DOWNLOAD_DIR" -maxdepth 1 -type f -printf "%T@|%f|%s\n" | sort -nr)
+[[ ${#files[@]} -eq 0 ]] && die "Download directory »$DOWNLOAD_DIR« is empty"
+
+# --- Build pretty lines ---
+rofi_lines=()
+file_paths=()
+for line in "${files[@]}"; do
+    IFS='|' read -r _ts fname fsize <<< "$line"
+    fpath="$DOWNLOAD_DIR/$fname"
+    size=$(human_readable "$fsize")
+
+    styled="<span foreground=\"$NAME_COLOR\">$fname</span> <span foreground=\"$SIZE_COLOR\">[$size]</span>"
+    rofi_lines+=("$styled")
+    file_paths+=("$fpath")
+done
+
+# --- Show menu ---
+chosen=$(printf '%s\n' "${rofi_lines[@]}" | "$ROFI_CMD" -dmenu -p "📂 Open Download:" ${ROFI_THEME:+-theme "$ROFI_THEME"} $ROFI_ARGS) || exit 0
+[[ -z "$chosen" ]] && exit 0
+
+# --- Match selected file ---
+selected=-1
+for i in "${!rofi_lines[@]}"; do
+    if [[ "${rofi_lines[$i]}" == "$chosen" ]]; then
+        selected=$i
+        break
+    fi
+done
+[[ "$selected" -lt 0 ]] && die "Selection failed"
+
+path="${file_paths[$selected]}"
+open_file_custom "$path"

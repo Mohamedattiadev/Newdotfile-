@@ -1,0 +1,95 @@
+#!/bin/bash
+
+# Check and install dependencies if missing
+check_dependencies() {
+  local missing=()
+  
+  if ! command -v yt-dlp &> /dev/null; then
+    missing+=("yt-dlp")
+  fi
+  
+  if ! command -v wget &> /dev/null; then
+    missing+=("wget")
+  fi
+  
+  if ! command -v notify-send &> /dev/null; then
+    missing+=("libnotify")
+  fi
+  
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    echo "Missing dependencies: ${missing[*]}" >> "$LOG"
+    if command -v yay &> /dev/null; then
+      echo "Installing missing dependencies using yay..." >> "$LOG"
+      yay -S --noconfirm "${missing[@]}" || {
+        echo "Failed to install dependencies" >> "$LOG"
+        notify-send "Video Download Error" "Failed to install required packages"
+        exit 1
+      }
+    else
+      echo "Missing dependencies but yay is not available. Please install: ${missing[*]}" >> "$LOG"
+      notify-send "Video Download Error" "Missing required packages and yay not available"
+      exit 1
+    fi
+  fi
+}
+
+DIR="$HOME/Videos"
+mkdir -p "$DIR"
+LOG="$DIR/debug_video.log"
+URL_LOG="$DIR/downloaded_video.log"
+
+url="$1"
+echo "[download-video] URL received: $url" >> "$LOG"
+
+# Validate URL
+if [[ -z "$url" ]]; then
+  echo "No URL received." >> "$LOG"
+  notify-send "Video Download Failed" "No URL received"
+  exit 1
+fi
+
+# Check dependencies before proceeding
+check_dependencies
+
+# Check if URL was already downloaded
+if grep -Fxq "$url" "$URL_LOG"; then
+  notify-send "Already downloaded" "$url"
+  echo "Duplicate: $url" >> "$LOG"
+  exit 0
+fi
+
+# Generate filename with timestamp
+timestamp=$(date +%Y%m%d_%H%M%S)
+filename="video_${timestamp}.mp4"
+output="$DIR/$filename"
+
+# Try downloading with yt-dlp (with proper format selection)
+yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' \
+       --merge-output-format mp4 \
+       -o "$output" \
+       "$url" >> "$LOG" 2>&1
+
+# Check if yt-dlp succeeded
+if [[ -s "$output" ]]; then
+  echo "$url" >> "$URL_LOG"
+  notify-send "Video Downloaded" "$filename"
+  echo "Success: $filename" >> "$LOG"
+  exit 0
+fi
+
+# If yt-dlp failed, try with wget
+echo "yt-dlp failed, falling back to wget..." >> "$LOG"
+wget -O "$output" "$url" >> "$LOG" 2>&1
+
+# Check wget result
+if [[ -s "$output" ]]; then
+  echo "$url" >> "$URL_LOG"
+  notify-send "Video Downloaded (via wget)" "$filename"
+  echo "Success (wget): $filename" >> "$LOG"
+  exit 0
+else
+  notify-send "Video Download Failed" "$url"
+  echo "Both yt-dlp and wget failed. Removing: $output" >> "$LOG"
+  rm -f "$output"
+  exit 1
+fi

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Qutebrowser requires commands to be piped into the FIFO
+# Ensure QUTE_FIFO is available
+[ -z "$QUTE_FIFO" ] && echo "QUTE_FIFO is not set. Are you running as a userscript?" && exit 1
+
+echo ":open -t https://github.com" >> "$QUTE_FIFO"
+echo ":open -t https://mail.google.com" >> "$QUTE_FIFO"
+echo ":open -t https://chat.google.com" >> "$QUTE_FIFO"

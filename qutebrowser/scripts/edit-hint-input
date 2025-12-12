@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+import sys
+import subprocess
+import os
+
+# qutebrowser passes environment variables about the selected element
+# We'll just directly call qutebrowser's :edit-text after hint selection
+
+# Tell qutebrowser to enter hint mode and then run :edit-text
+# This uses the qutebrowser IPC (via qute://spawn)
+subprocess.run([
+    "qutebrowser", "--target", "window", "--command",
+    "hint inputs", ";;", "edit-text"
+])

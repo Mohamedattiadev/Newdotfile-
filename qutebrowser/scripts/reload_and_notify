@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Reload qutebrowser config
+qutebrowser ":config-source"
+
+# Send Dunst notification
+notify-send "qutebrowser" "Config reloaded successfully"

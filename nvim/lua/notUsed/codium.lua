@@ -1,0 +1,32 @@
+return {
+  -- "Exafunction/codeium.nvim",
+  -- cmd = "Codeium",
+  -- event = "InsertEnter",
+  -- build = ":Codeium Auth",
+  -- dependencies = {
+  --   "nvim-lua/plenary.nvim",
+  --   "Exafunction/windsurf.nvim",
+  -- },
+  -- init = function()
+  --   -- Disable Codeium for markdown files
+  --   vim.api.nvim_create_autocmd("FileType", {
+  --     pattern = { "markdown" },
+  --     callback = function()
+  --       vim.b.codeium_enabled = false
+  --     end,
+  --   })
+  -- end,
+  -- opts = function()
+  --   return {
+  --     enable_cmp_source = vim.g.ai_cmp,
+  --     virtual_text = {
+  --       enabled = not vim.g.ai_cmp,
+  --       key_bindings = {
+  --         accept = false,
+  --         next = "<M-]>",
+  --         prev = "<M-[>",
+  --       },
+  --     },
+  --   }
+  -- end,
+}

@@ -1,0 +1,180 @@
+[
+  {
+    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+
+      // Existing Bindings
+      "space g d": "editor::GoToDiagnostic",
+      "space g r": "editor::FindAllReferences",
+      "shift-k": "editor::Hover",
+      "shift-h": "pane::ActivatePreviousItem",
+      "shift-l": "pane::ActivateNextItem",
+      "space g a": "editor::ToggleCodeActions",
+      "space r r": "editor::Rename",
+      "space g f": "editor::Format",
+      "g c c": "editor::ToggleComments",
+      "space space f": "file_finder::Toggle",
+      "space o": "tab_switcher::Toggle",
+      "space e": "workspace::ToggleLeftDock",
+      // "space e": "project_panel::ToggleFocus",
+      "space p": "outline::Toggle",
+      "space df": "editor::GoToDefinition",
+
+      // New Bindings
+      "space t t": "terminal_panel::ToggleFocus",
+      "space v v": "pane::SplitLeft",
+      "space w": "workspace::Save",
+      "space q": "pane::CloseActiveItem",
+      "space space q": "workspace::CloseWindow",
+      // "space g w": "project_panel::ToggleFindInProject",
+      // "space g g": "workspace::ToggleRightDock",
+      //
+      //
+      "space  g g": "git_panel::ToggleFocus",
+      "space space a": "agent::ToggleFocus"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert && !menu",
+    "bindings": {
+      // Insert-mode custom bindings (if any)
+    }
+  },
+  {
+    "context": "Editor && vim_mode == visual && !VimWaiting && !VimObject",
+    "bindings": {
+      "shift-j": "editor::MoveLineDown",
+      "shift-k": "editor::MoveLineUp"
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "a": "project_panel::NewFile",
+      "A": "project_panel::NewDirectory",
+      "d": "project_panel::Delete",
+      "r": "project_panel::Rename"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "space t": "terminal_panel::ToggleFocus",
+      "space q": "workspace::ToggleBottomDock"
+    }
+  },
+
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      // "space q": "workspace::ToggleRightDock",
+      "space": null
+    }
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k up": null,
+      "ctrl-k down": null,
+      "ctrl-k left": null,
+      "ctrl-k right": null
+      // "ctrl-1": ["pane::ActivateItem", 0],
+      // "ctrl-2": ["pane::ActivateItem", 1],
+      // "ctrl-3": ["pane::ActivateItem", 2],
+      // "alt-4": ["pane::ActivateItem", 3],
+      // "alt-5": ["pane::ActivateItem", 4],
+      // "alt-6": ["pane::ActivateItem", 5],
+      // "alt-7": ["pane::ActivateItem", 6],
+      // "alt-8": ["pane::ActivateItem", 7],
+      // "alt-9": ["pane::ActivateItem", 8]
+    }
+  },
+
+  {
+    "context": "AgentPanel",
+    "bindings": {
+      "space q": "workspace::ToggleRightDock"
+    }
+  },
+  {
+    "context": "AssistantPanel && not_editing",
+    "bindings": {
+      "space q": "workspace::ToggleRightDock"
+    }
+  },
+
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      // "space e": "project_panel::ToggleFocus"
+
+      "space": null,
+      "o": null,
+      "enter": "project_panel::Open",
+      "space e": "workspace::ToggleLeftDock",
+      "tab j": ["workspace::SendKeystrokes", "j j j j j"],
+      "tab k": ["workspace::SendKeystrokes", "k k k k k"],
+      "tab h": ["workspace::SendKeystrokes", "h h h h h"],
+      "tab l": ["workspace::SendKeystrokes", "l l l l l"]
+    }
+  },
+  {
+    "context": "GitPanel",
+    "bindings": {
+      "space  g g": "git_panel::ToggleFocus",
+      "space q": "workspace::ToggleRightDock"
+    }
+  },
+
+  // For normal mode in editor
+  {
+    "context": "Editor && vim_mode == normal && !menu",
+    "bindings": {
+      "tab j": ["workspace::SendKeystrokes", "j j j j j"],
+      "tab k": ["workspace::SendKeystrokes", "k k k k k"],
+      "tab h": ["workspace::SendKeystrokes", "h h h h h"],
+      "tab l": ["workspace::SendKeystrokes", "l l l l l"]
+    }
+  },
+  {
+    "context": "FileFinder || (FileFinder > Picker > Editor) || (FileFinder > Picker > menu)",
+    "bindings": {
+      // "ctrl-j": "file_finder::SelectPrevious",
+      "ctrl-k": "menu::SelectPrevious",
+      "ctrl-j": "menu::SelectNext",
+      "ctrl-h": null,
+      "ctrl-l": null
+    }
+  },
+
+  {
+    "context": "TabSwitcher",
+    "bindings": {
+      "ctrl-k": "menu::SelectPrevious",
+      "ctrl-j": "menu::SelectNext",
+      "space x": "tab_switcher::CloseSelectedItem"
+    }
+  },
+  {
+    "context": "Editor && VimControl",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-w": ["pane::CloseActiveItem", { "close_pinned": false }]
+    }
+  }
+]

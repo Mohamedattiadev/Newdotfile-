@@ -1,0 +1,40 @@
+return {
+  -- {
+  --   "ibhagwan/fzf-lua",
+  --   event = { "InsertEnter", "BufReadPre" },
+  --   dependencies = { "nvim-tree/nvim-web-devicons" },
+  --   config = function()
+  --     require("fzf-lua").setup({
+  --       debug = true,
+  --       rg_bin = "/usr/bin/rg",
+  --       fd_bin = "/usr/bin/fd",
+  --       fzf_bin = "/usr/bin/fzf",
+  --       files = {
+  --         cmd = "rg --files --hidden --follow --glob '!.git/*'",
+  --       },
+  --     })
+  --
+  --     local set = vim.keymap.set
+  --
+  --     local function lazyvim_pick(command, opts)
+  --       return function()
+  --         require("lazyvim.util.pick").open(command, opts)
+  --       end
+  --     end
+  --
+  --     set(
+  --       "n",
+  --       "<leader><leader>",
+  --       lazyvim_pick("files"),
+  --       { desc = "Find Files (Root Dir)", noremap = true, silent = true }
+  --     )
+  --     set("n", "<leader>oO", lazyvim_pick("oldfiles"), { desc = "Old Files", noremap = true, silent = true })
+  --     set("n", "<leader>bB", lazyvim_pick("buffers"), { desc = "Buffers", noremap = true, silent = true })
+  --     set("n", "<leader>fG", lazyvim_pick("live_grep"), { desc = "Grep (Root Dir)", noremap = true, silent = true })
+  --     set("n", "<leader>fw", lazyvim_pick("grep_cword"), { desc = "Word (Root Dir)", noremap = true, silent = true })
+  --
+  --     set("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find Files (FZF)", noremap = true, silent = true })
+  --     set("n", "<leader>fg", "<cmd>FzfLua live_grep<cr>", { desc = "Grep (FZF)", noremap = true, silent = true })
+  --   end,
+  -- },
+}

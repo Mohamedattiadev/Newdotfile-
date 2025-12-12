@@ -1,0 +1,57 @@
+#!/bin/bash
+
+DIR="$HOME/IMAGES"
+mkdir -p "$DIR"
+LOG="$DIR/debug.log"
+URL_LOG="$DIR/downloaded.log"
+
+url="$1"
+echo "[download-indexed-image] URL received: $url" >> "$LOG"
+
+# Validate URL
+if [[ -z "$url" ]]; then
+  echo "No URL received." >> "$LOG"
+  exit 1
+fi
+
+# Check if URL was already downloaded
+if grep -Fxq "$url" "$URL_LOG"; then
+  notify-send "Already downloaded" "$url"
+  echo "Duplicate: $url" >> "$LOG"
+  exit 0
+fi
+
+# Get content type to determine extension
+ctype=$(curl -sI "$url" | grep -i "Content-Type" | awk '{print $2}' | tr -d '\r')
+echo "Content-Type: $ctype" >> "$LOG"
+
+case "$ctype" in
+  image/jpeg) ext="jpg" ;;
+  image/png) ext="png" ;;
+  image/gif) ext="gif" ;;
+  image/webp) ext="webp" ;;
+  image/bmp) ext="bmp" ;;
+  image/svg+xml) ext="svg" ;;
+  image/tiff) ext="tiff" ;;
+  *) ext="jpg" ;;
+esac
+
+# Filename with padded index
+count=$(ls "$DIR"/image_*.* 2>/dev/null | wc -l)
+next_index=$(printf "%03d" $((count + 1)))
+filename="image_${next_index}.${ext}"
+output="$DIR/$filename"
+
+# Download the image
+curl -sL "$url" -o "$output"
+
+# Verify success
+if [[ -s "$output" ]]; then
+  echo "$url" >> "$URL_LOG"
+  notify-send "Downloaded" "$filename" -i "$output"
+  echo "Success: $filename" >> "$LOG"
+else
+  notify-send "Download failed" "$url"
+  echo "Failed download. Removing: $output" >> "$LOG"
+  rm -f "$output"
+fi

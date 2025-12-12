@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+#
+# Script name: auto
+# Description: Add and remove programs to autostart directory.
+# Dependencies: fzf 
+# GitLab: https://www.gitlab.com/dwt1/fzscripts
+# License: https://www.gitlab.com/dwt1/fzscripts
+# Contributors: Derek Taylor
+
+# Set with the flags "-e", "-u","-o pipefail" cause the script to fail
+# if certain things happen, which is a good thing.  Otherwise, we can
+# get hidden bugs that are hard to discover.
+set -euo pipefail
+
+# shellcheck disable=SC1091
+source ./_dm-helper.sh 2>/dev/null || source _dm-helper.sh 2>/dev/null
+
+source_dmscripts_configs
+
+if configs_are_different; then
+    echo "$(date): configs are different" >>"$DM_CONFIG_DIFF_LOGFILE"
+    sleep 1
+fi
+
+autostart_files=()
+for dir in $HOME/.config/autostart/; do
+  if [ -d "$dir" ]; then
+    # Using -printf "%f\n" to get filenames without full path.
+    autostart_files+=("$(find "$dir" -type f -printf "%f\n")")
+  fi
+done
+
+desktop_files=()
+for dir in /usr/share/applications /usr/local/share/applications $HOME/.local/share/applications; do
+  if [ -d "$dir" ]; then
+    # The -print is the default for 'find' so not needed.
+    # The -print contains the full path which is needed for later.
+    desktop_files+=("$(find "$dir" -type f -print)")
+  fi
+done
+
+# Lists all files within the autostart directory.
+listauto() {
+    selected_file=$(${MENU} "Programs currently in autostart directory: " < <(printf "%s\n" "${autostart_files[@]}"))
+    if [[ -n "$selected_file" ]]; then
+     main 
+    fi
+    tput setaf 6 bold
+    printf "%s\n" "Programs currently in autostart directory:"
+    tput sgr0
+    tree ~/.config/autostart/ | grep -e '├' -e '└' --color=never
+}
+
+# Lists the desktop files allowing user to add selections to autostart directory.
+addauto() {
+    selected_file=$(${MENU} "Add program to autostart: " < <(printf "%s\n" "${desktop_files[@]}"))
+    if [[ -n "$selected_file" ]]; then
+      # shellcheck disable=SC2207,SC2116
+      selected_array=($(echo "$selected_file"))
+      for i in "${selected_array[@]}"; do
+          tput setaf 5 bold
+          printf "%s" "✓ "
+          tput setaf 5 bold
+          cp "$i" ~/.config/autostart/
+          printf "%s" "$(basename "$i")"
+          tput sgr0
+          printf "%s\n\n" " added to autostart directory."
+          progname=$(basename "$i" | sed 's/.desktop//')
+          notify-send "Added To Autostart" "${progname} added to autostart directory." \
+            -i starred
+      done
+    else
+      echo "No options selected."
+    fi
+}
+
+# Lists all files within the autostart directory allowing user to remove selections.
+rmauto() {
+    selected_file=$(${MENU} "Remove program from autostart: " < <(printf "%s\n" "${autostart_files[@]}"))
+
+    if [[ -n "$selected_file" ]]; then
+      # shellcheck disable=SC2207,SC2116
+      selected_array=($(echo "$selected_file"))
+      for i in "${selected_array[@]}"; do
+          tput setaf 9 bold
+          printf "%s" "✗ "
+          tput setaf 9 bold
+          rm ~/.config/autostart/"$i"
+          printf "%s" "$(basename "$i")"
+          tput sgr0
+          printf "%s\n\n" " removed from autostart directory."
+          progname=$(basename "$i" | sed 's/.desktop//')
+          notify-send "Removed From Autostart" "${progname} removed from autostart directory." \
+            -i dialog-error
+      done
+    else
+      echo "No options selected."
+    fi
+}
+
+main() {
+    declare -a options=(
+        "Add a program to autostart" 
+        "Remove a program from autostart" 
+        "List contents of autostart directory"
+        "Quit")
+    #menu=$(${MENU} "What do you want to do? " < <(printf "%s\n" "${options[@]}"))
+
+    choice=$(printf '%s\n' "${options[@]}" | ${MENU} 'What do you want do? ')
+
+    case $choice in
+         "Add a program to autostart")
+             addauto
+	     exit
+             ;;
+         "Remove a program from autostart")
+             rmauto
+	     exit
+             ;;
+         "List contents of autostart directory")
+             listauto
+	     exit
+             ;;
+         "Quit")
+             exit
+             ;;
+     esac
+}
+
+MENU="$(get_menu_program "$@")"
+[[ "${BASH_SOURCE[0]}" == "${0}" ]] && main

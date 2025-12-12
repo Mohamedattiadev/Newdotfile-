@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+#
+# Script name: dm-dictionary
+# Description: Uses didyoumean as a spellchecker.
+# Dependencies: dmenu, fzf, rofi, didyoumean, xclip
+# GitLab: https://www.gitlab.com/dwt1/dmscripts
+# License: https://www.gitlab.com/dwt1/dmscripts/LICENSE
+# Contributors: Francesco Prem Solidoro
+#               Derek Taylor
+#               Gemini (for user input feature)
+
+# Set with the flags "-e", "-u","-o pipefail" cause the script to fail
+# if certain things happen, which is a good thing.  Otherwise, we can
+# get hidden bugs that are hard to discover.
+set -euo pipefail
+
+# shellcheck disable=SC1091
+source ./_dm-helper.sh 2>/dev/null || source _dm-helper.sh 2>/dev/null
+
+source_dmscripts_configs
+
+if configs_are_different; then
+	echo "$(date): configs are different" >>"$DM_CONFIG_DIFF_LOGFILE"
+	sleep 1
+fi
+
+main() {
+	# 1. Try to get the highlighted word from the primary X selection.
+	#    - '2>/dev/null' hides errors if no text is selected.
+	#    - 'xargs' trims any leading/trailing whitespace (common with selections).
+	#    - '|| true' prevents the script from exiting (due to 'set -e') if xclip fails.
+	WORD="$(xclip -o -selection primary 2>/dev/null | xargs || true)"
+
+	# 2. Check if we actually got a word from selection. 
+	#    If not, prompt the user for a word using the menu program.
+	if ! [ "${WORD}" ]; then
+		# No word selected, so ask the user to type one.
+		# The menu program's input is captured back into the WORD variable.
+		WORD="$(${MENU} -p "Enter word to spell-check:")"
+	fi
+
+	# 3. Final check: if the word is still empty (e.g., user hit ESC or cancelled the prompt) 
+    #    or is the 'quit' signal, then exit.
+	if ! [ "${WORD}" ] || [ "${WORD}" = "quit" ]; then
+		printf 'No word selected or user quit\n' >&2
+		exit 0
+	fi
+
+	# 4. Spell-check the selected or entered WORD and pipe suggestions back to the menu program.
+	#    The user-selected corrected word is copied to the clipboard.
+	dym -c "$WORD" | ${MENU} "Select Correct Spelling for: ${WORD}" | xclip -selection clipboard
+}
+
+MENU="$(get_menu_program "$@")"
+[[ "${BASH_SOURCE[0]}" == "${0}" ]] && main

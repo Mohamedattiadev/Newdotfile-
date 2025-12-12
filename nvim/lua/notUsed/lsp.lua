@@ -1,0 +1,108 @@
+return {
+  -- "neovim/nvim-lspconfig",
+  -- event = { "BufReadPre", "BufNewFile" },
+  --
+  -- dependencies = {
+  --   "mason-org/mason-lspconfig.nvim",
+  --   "hrsh7th/cmp-nvim-lsp",
+  --   { "antosha417/nvim-lsp-file-operations", config = true },
+  -- },
+  --
+  -- config = function()
+  --   local lspconfig = require("lspconfig")
+  --   local mason_lsp = require("mason-lspconfig")
+  --   local cmp_nvim_lsp = require("cmp_nvim_lsp")
+  --
+  --   -- ✅ Capabilities for completion
+  --   local capabilities = cmp_nvim_lsp.default_capabilities()
+  --
+  --   -- ✅ Diagnostic icons
+  --   local signs = { Error = "", Warn = "", Hint = "󰠠", Info = "" }
+  --   for type, icon in pairs(signs) do
+  --     local hl = "DiagnosticSign" .. type
+  --     vim.fn.sign_define(hl, { text = icon, texthl = hl })
+  --   end
+  --
+  --   -- ✅ LSP Keymaps
+  --   vim.api.nvim_create_autocmd("LspAttach", {
+  --     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+  --     callback = function(ev)
+  --       local opts = { buffer = ev.buf, silent = true }
+  --       local map = function(m, k, v, d)
+  --         opts.desc = d
+  --         vim.keymap.set(m, k, v, opts)
+  --       end
+  --
+  --       map("n", "K", vim.lsp.buf.hover, "Hover")
+  --       map("n", "gD", vim.lsp.buf.declaration, "Declaration")
+  --       map("n", "gR", "<cmd>Telescope lsp_references<CR>", "References")
+  --       map("n", "<leader>gd", "<cmd>Telescope lsp_definitions<CR>", "Definitions")
+  --       map("n", "<leader>gi", "<cmd>Telescope lsp_implementations<CR>", "Implementations")
+  --       map("n", "<leader>gt", "<cmd>Telescope lsp_type_definitions<CR>", "Type Definitions")
+  --
+  --       map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code Actions")
+  --       map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
+  --       map("n", "<leader>rs", ":LspRestart<CR>", "Restart")
+  --
+  --       map("n", "<leader>d", vim.diagnostic.open_float, "Line Diagnostics")
+  --       map("n", "<leader>dn", vim.diagnostic.goto_next, "Next")
+  --       map("n", "<leader>db", vim.diagnostic.goto_prev, "Prev")
+  --       map("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", "Buffer Diagnostics")
+  --     end,
+  --   })
+  --
+  --   -- ✅ SAFE handler registration
+  --   if mason_lsp.setup_handlers then
+  --     mason_lsp.setup_handlers({
+  --
+  --       function(server_name)
+  --         lspconfig[server_name].setup({
+  --           capabilities = capabilities,
+  --         })
+  --       end,
+  --
+  --       ["lua_ls"] = function()
+  --         lspconfig.lua_ls.setup({
+  --           capabilities = capabilities,
+  --           settings = {
+  --             Lua = {
+  --               diagnostics = { globals = { "vim" } },
+  --               completion = { callSnippet = "Replace" },
+  --             },
+  --           },
+  --         })
+  --       end,
+  --
+  --       ["volar"] = function()
+  --         lspconfig.volar.setup({
+  --           capabilities = capabilities,
+  --           filetypes = {
+  --             "vue",
+  --             "javascript",
+  --             "typescript",
+  --             "javascriptreact",
+  --             "typescriptreact",
+  --           },
+  --         })
+  --       end,
+  --     })
+  --   else
+  --     -- ✅ Fallback in case handler API isn’t present
+  --     local servers = {
+  --       "lua_ls",
+  --       "pyright",
+  --       "ts_ls",
+  --       "html",
+  --       "cssls",
+  --       "jsonls",
+  --       "marksman",
+  --     }
+  --
+  --     for _, server in ipairs(servers) do
+  --       lspconfig[server].setup({
+  --         capabilities = capabilities,
+  --       })
+  --     end
+  --   end
+  -- end,
+}
