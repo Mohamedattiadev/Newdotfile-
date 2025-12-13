@@ -1,8 +1,0 @@
-{
-  "mobileToolbarCommands": [
-    "command-palette:open",
-    "templater-obsidian:insert-templater"
-  ],
-  "mobilePullAction": "templater-obsidian:insert-templater",
-  "showInlineTitle": true
-}
