@@ -1,0 +1,26 @@
+configuration {
+  modi: "window,drun,ssh,combi";
+  font: "hack 10";
+  combi-modi: "window,drun,ssh";
+
+  kb-accept-entry: "Return";
+  kb-remove-to-eol: "";
+
+  kb-row-up: "Up,Control+p,Control+k";
+  kb-row-down: "Down,Control+n,Control+j";
+  drun-display-format: "{icon}    {name}";
+  show-icons: true;
+  terminal: "alacritty";
+  // drun-use-generic-names: true;
+  // window-format: "{w} · {c}";
+  window-thumbnail: true;
+  // max-history-size: 10;
+  sort: true;
+  // case-sensitive: false;
+  // cycle: true;
+  // sidebar-mode: true;
+  icon-theme: "Papirus";
+  icon-size: 24;
+}
+
+@theme "~/.config/rofi/themes/dtos-center.rasi"
