@@ -30,7 +30,7 @@ import subprocess
 from libqtile.backend.base import Window
 import time
 from typing import Optional
-import logging
+# import logging
 from libqtile import bar, extension, hook, layout, qtile, widget
 from qtile_extras.widget.decorations import RectDecoration, BorderDecoration
 from qtile_extras import widget as ewidget  # use extras’ widgets
@@ -70,6 +70,8 @@ from libqtile.lazy import lazy
 # from qtile_extras.widget import StatusNotifier
 import colors
 
+import logging
+logging.basicConfig(level=logging.ERROR)
 
 colorsW = [
     ["#282c34", "#282c34"],  # bg

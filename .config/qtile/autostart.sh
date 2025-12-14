@@ -103,6 +103,7 @@ pamac-tray-icon-plasma & # Update notifier
   sleep 40
   ~/.config/qtile/scripts/keyboard_layout_watcher.sh &
   ~/.config/qtile/scripts/watch_todo_conflicts.sh &
+  ~/.config/qtile/scripts/battery-events.sh &
 ) &
 
 # ---------------------------------------------------------
