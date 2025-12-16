@@ -56,7 +56,7 @@ return {
   { "folke/persistence.nvim", enabled = false },
   { "b0o/SchemaStore.nvim", enabled = false },
   { "nvimtools/none-ls.nvim", enabled = false },
-  { "MeanderingProgrammer/render-markdown.nvim", enabled = false },
+  -- { "MeanderingProgrammer/render-markdown.nvim", enabled = false },
 
   -- UI frameworks (Primeagen does NOT use)
   { "folke/noice.nvim", enabled = false },
