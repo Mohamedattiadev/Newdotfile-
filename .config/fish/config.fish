@@ -16,8 +16,9 @@ set -U fish_user_paths $HOME/.bin $HOME/.local/bin $HOME/.config/emacs/bin $HOME
 
 set fish_greeting # Supresses fish's intro message
 set TERM xterm-256color # Sets the terminal type
-set VISUAL nvim # $VISUAL use Emacs in GUI mode
-set EDITOR nvim # $EDITOR use Emacs in terminal
+set VISUAL nvim # $VISUAL use nvim in GUI mode
+set EDITOR nvim # $EDITOR use nvim in terminal
+set -Ux SUDO_EDITOR nvim
 
 ### SET MANPAGER
 ### Uncomment only one of these!

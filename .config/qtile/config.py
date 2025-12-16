@@ -662,7 +662,7 @@ groups = [
             Match(wm_class="dev.zed.Zed"),
             Match(wm_class="kitty"),
             Match(
-                wm_class="Alacritty",
+                wm_class="alacritty",
                 title=re.compile(r"^(?!.*(nvimsum|edit-field)).*$"),
             ),
             Match(wm_class="cursor"),
