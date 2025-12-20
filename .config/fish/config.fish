@@ -309,21 +309,19 @@ set -g NVIM_DAEMON_SOCKET /tmp/nvimsocket
 set -g NVIM_DAEMON_SESSION nvd
 
 function __nvd_ensure
-    # Ensure tmux session exists
-    if not tmux has-session -t $NVIM_DAEMON_SESSION 2>/dev/null
-        tmux new-session -d -s $NVIM_DAEMON_SESSION
-    end
-
-    # If socket exists → server alive, nothing to do
+    # If socket exists, daemon is alive
     if test -S $NVIM_DAEMON_SOCKET
         return
     end
 
-    # Kill broken / old session state safely
+    # Kill broken session
     tmux kill-session -t $NVIM_DAEMON_SESSION 2>/dev/null
-    tmux new-session -d -s $NVIM_DAEMON_SESSION "nvim --listen $NVIM_DAEMON_SOCKET"
 
-    # Block until socket exists (NO RACE CONDITION)
+    # IMPORTANT: bypass fish functions here
+    tmux new-session -d -s $NVIM_DAEMON_SESSION \
+        "command nvim --listen $NVIM_DAEMON_SOCKET"
+
+    # Wait for socket (no race)
     while not test -S $NVIM_DAEMON_SOCKET
         sleep 0.05
     end
@@ -332,34 +330,41 @@ end
 function __nvd_open
     __nvd_ensure
 
-    # Open files if provided
     if test (count $argv) -gt 0
         nvr --servername $NVIM_DAEMON_SOCKET --remote-tab $argv
     end
 
-    # Attach to daemon
-    tmux attach -t $NVIM_DAEMON_SESSION
+    # Attach only if not already in tmux
+    if not set -q TMUX
+        tmux attach -t $NVIM_DAEMON_SESSION
+    end
 end
 
-# Override vim/nvim
-# function nvim
-#     __nvd_open $argv
-# end
+# ONE behavior for EVERYTHING
+function nvim
+    __nvd_open $argv
+end
 
 function vim
     __nvd_open $argv
 end
 
+alias vi='vim'
+alias v='vim'
+alias n='nvim'
+alias nv='nvim'
+alias nvi='nvim'
 #showkeys
 alias showkeys="screenkey"
 
 # vim and emacs
 # alias vim='nvim'
-alias vi='nvim'
-alias n='nvim'
-alias nv='nvim'
-alias nvi='nvim'
-alias nvim='nvim'
+# alias vi='nvim'
+# alias v='vim'
+# alias n='nvim'
+# alias nv='nvim'
+# alias nvi='nvim'
+# alias nvim='nvim'
 
 # alias em='/usr/bin/emacs -nw'
 # alias emacs="emacsclient -c -a 'emacs'"

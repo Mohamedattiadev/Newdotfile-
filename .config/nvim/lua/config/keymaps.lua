@@ -55,6 +55,9 @@ vim.keymap.set("n", "<leader>q", "<cmd>q<CR>")
 vim.keymap.set("n", "<leader><leader>q", "<cmd>wqa<CR>")
 vim.keymap.set("n", "<leader>`", "<cmd>e #<CR>") -- switch to last buffer
 
+-- clear search
+vim.keymap.set("n", "<leader><leader>n", "<cmd>:nohlsearch <CR>")
+
 -------------------------------------------------------------------------------
 -- PASTE BEHAVIOR
 -------------------------------------------------------------------------------
@@ -71,8 +74,15 @@ vim.keymap.set("v", "<C-v>", '"+P')
 -------------------------------------------------------------------------------
 -- SCROLLING
 -------------------------------------------------------------------------------
-vim.keymap.set("n", "<C-e>", "10<C-e>")
-vim.keymap.set("n", "<C-y>", "10<C-y>")
+-- vim.keymap.set("n", "<C-e>", "10<C-e>")
+-- vim.keymap.set("n", "<C-y>", "10<C-y>")
+
+--------------------------------------------------------------------------------
+--- move selected text/block of in visual mode
+--------------------------------------------------------------------------------
+
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
 
 -------------------------------------------------------------------------------
 -- MOVEMENT BOOST (5 steps per tap)
@@ -103,6 +113,14 @@ vim.keymap.set("n", "<leader>bd", ":bd<CR>")
 vim.keymap.set("n", "<leader>r", ":RunCode<CR>")
 
 -------------------------------------------------------------------------------
+--  clear messages
+-------------------------------------------------------------------------------
+vim.keymap.set("n", "<Esc>", function()
+  vim.cmd("nohlsearch")
+  vim.cmd("echo ''")
+end, { desc = "Clear highlights and messages" })
+
+-------------------------------------------------------------------------------
 -- OPEN MARKDOWN LINKS
 -------------------------------------------------------------------------------
 vim.keymap.set("n", "<leader>of", function()
@@ -123,35 +141,35 @@ end)
 -------------------------------------------------------------------------------
 function _G.markdown_foldexpr()
   local line = vim.fn.getline(vim.v.lnum)
-  local heading = line:match("^(#+)%s+")
+  local heading = line:match("^%s*(#+)%s+")
   return heading and (">" .. #heading) or "="
 end
 
-function _G.markdown_foldtext()
-  local line = vim.fn.getline(vim.v.foldstart)
-  local size = vim.v.foldend - vim.v.foldstart
-  local hashes = line:match("^(#+)")
-  local level = hashes and #hashes or 0
-  local padding = string.rep(" ", level + 2)
-  local header_hl = "FoldHeaderH" .. (level ~= 0 and level or 1)
-  return {
-    { padding .. hashes, header_hl },
-    { " " .. line:gsub("^#+%s*", ""), "FoldLine" },
-    { "  " .. size .. " lines", "FoldInfo" },
-  }
-end
+-- function _G.markdown_foldtext()
+--   local line = vim.fn.getline(vim.v.foldstart)
+--   local size = vim.v.foldend - vim.v.foldstart
+--   local hashes = line:match("^(#+)")
+--   local level = hashes and #hashes or 0
+--   local padding = string.rep(" ", level + 2)
+--   local header_hl = "FoldHeaderH" .. (level ~= 0 and level or 1)
+--   return {
+--     { padding .. hashes, header_hl },
+--     { " " .. line:gsub("^#+%s*", ""), "FoldLine" },
+--     { "  " .. size .. " lines", "FoldInfo" },
+--   }
+-- end
 
-function _G.set_markdown_folding()
-  vim.opt_local.foldmethod = "expr"
-  vim.opt_local.foldexpr = "v:lua.markdown_foldexpr()"
-  vim.opt_local.foldtext = "v:lua.markdown_foldtext()"
-  vim.opt_local.foldlevel = 0
-end
-
+-------------------------------------------------------------------------------
+-- MARKDOWN FOLDING (SIMPLE & RELIABLE)
+-------------------------------------------------------------------------------
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()
-    _G.set_markdown_folding()
+    vim.opt.foldmethod = "expr"
+    vim.opt.foldexpr = "v:lua.markdown_foldexpr()"
+    -- vim.opt.foldtext = "v:lua.markdown_foldtext()"
+    vim.opt.foldlevel = 0
+    vim.opt.foldenable = true
   end,
 })
 
@@ -219,12 +237,20 @@ end)
 vim.keymap.set("n", "zu", function()
   vim.cmd("normal! zR")
 end)
-
 vim.keymap.set("n", "<CR>", function()
   local l = vim.fn.line(".")
-  if vim.fn.foldclosed(l) == -1 then
-    vim.cmd("normal! zc")
-  else
-    vim.cmd("normal! zo")
+
+  -- Not inside any fold at all
+  if vim.fn.foldlevel(l) == 0 then
+    return
   end
-end)
+
+  -- If on a closed fold start → open it
+  if vim.fn.foldclosed(l) ~= -1 then
+    vim.cmd("normal! zo")
+    return
+  end
+
+  -- Otherwise close the nearest parent fold
+  vim.cmd("normal! zc")
+end, { desc = "Toggle nearest fold" })

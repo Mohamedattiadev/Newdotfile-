@@ -13,10 +13,10 @@
             "state": {
               "type": "excalidraw",
               "state": {
-                "file": "0- DB.md"
+                "file": "5- OS.md"
               },
               "icon": "excalidraw-icon",
-              "title": "0- DB"
+              "title": "5- OS"
             }
           },
           {
@@ -462,6 +462,7 @@
   },
   "active": "7eeb423cf7212620",
   "lastOpenFiles": [
+    "0- DB.md",
     "2- Algo.md",
     "Pasted Image 20251214230633_801.png",
     "Pasted Image 20251214211314_427.png",
@@ -473,7 +474,6 @@
     "Pasted Image 20251214170509_517.png",
     "Pasted Image 20251214161639_409.png",
     "Pasted Image 20251214161542_162.png",
-    "0- DB.md",
     "3 - Data SCi..md",
     "5- OS.md",
     "1- DesignPattern.md",
