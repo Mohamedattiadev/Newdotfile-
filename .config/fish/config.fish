@@ -198,12 +198,13 @@ end
 
 #img func
 function img
-    if not type -q feh
-        echo "feh not found. Installing with yay..."
-        yay -S --noconfirm feh
+    if not type -q imv
+        echo "imv not found. Installing..."
+        yay -S --noconfirm imv
     end
 
-    feh --title ImagePopup --zoom fill $argv
+    imv \
+        $argv
 end
 
 #pwd copy to cliboard func 
@@ -222,13 +223,26 @@ function pwd
     echo $display_path | xclip -selection clipboard
 end
 
-#NOTE: used the rust tool pomodoro-tui
-function pomo
-    if test (count $argv) -eq 2
-        pomodoro-tui -w $argv[1] -b $argv[2]
-    else
-        echo "Usage: pomo <work_minutes> <break_minutes>"
+function ppwd
+    set full_path (builtin pwd)
+
+    if test (count $argv) -ge 1
+        set full_path "$full_path/$argv[1]"
     end
+
+    # replace HOME with ~
+    set display_path (string replace --regex "^$HOME" "~" $full_path)
+
+    # 🔧 escape spaces ONLY (no quotes, no fish escaping)
+    set escaped_path (string replace -a " " "\ " -- $display_path)
+
+    if not type -q xclip
+        echo "xclip not found. Installing with yay..."
+        yay -S --noconfirm xclip
+    end
+
+    echo $escaped_path
+    echo $escaped_path | xclip -selection clipboard
 end
 
 #NOTE:  used to source all the config files (fish, bash, zsh, etc)

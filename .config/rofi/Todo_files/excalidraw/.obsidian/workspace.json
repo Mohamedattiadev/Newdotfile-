@@ -13,10 +13,10 @@
             "state": {
               "type": "excalidraw",
               "state": {
-                "file": "5- OS.md"
+                "file": "2- Algo.md"
               },
               "icon": "excalidraw-icon",
-              "title": "5- OS"
+              "title": "2- Algo"
             }
           },
           {
@@ -25,10 +25,22 @@
             "state": {
               "type": "excalidraw",
               "state": {
-                "file": "0- DB.md"
+                "file": "1- DesignPattern.md"
               },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
+              "icon": "excalidraw-icon",
+              "title": "1- DesignPattern"
+            }
+          },
+          {
+            "id": "ced94222f97574c8",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "1- DesignPattern.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "1- DesignPattern"
             }
           },
           {
@@ -311,7 +323,8 @@
               "title": "excalidraw"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -368,7 +381,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "6fd73f74f59cd3d6",
@@ -460,23 +474,23 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "7eeb423cf7212620",
+  "active": "6a458061a124672c",
   "lastOpenFiles": [
-    "0- DB.md",
-    "2- Algo.md",
-    "Pasted Image 20251214230633_801.png",
-    "Pasted Image 20251214211314_427.png",
-    "Pasted Image 20251214211157_303.png",
-    "Pasted Image 20251214211031_022.png",
-    "Pasted Image 20251214210626_458.png",
-    "Pasted Image 20251214210626_372.png",
-    "Pasted Image 20251214210620_282.png",
-    "Pasted Image 20251214170509_517.png",
-    "Pasted Image 20251214161639_409.png",
-    "Pasted Image 20251214161542_162.png",
-    "3 - Data SCi..md",
-    "5- OS.md",
     "1- DesignPattern.md",
+    "Pasted Image 20251228221756_039.png",
+    "Pasted Image 20251228221600_385.png",
+    "Pasted Image 20251228221247_478.png",
+    "Pasted Image 20251228221148_838.png",
+    "Pasted Image 20251228221126_092.png",
+    "Pasted Image 20251228221003_008.png",
+    "Pasted Image 20251228220815_971.png",
+    "Pasted Image 20251228220751_959.png",
+    "Pasted Image 20251228220632_858.png",
+    "Pasted Image 20251228220614_419.png",
+    "2- Algo.md",
+    "0- DB.md",
+    "5- OS.md",
+    "3 - Data SCi..md",
     "4- os proJect.md",
     "Untitled.md",
     "s.md",

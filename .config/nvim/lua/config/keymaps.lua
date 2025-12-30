@@ -254,3 +254,5 @@ vim.keymap.set("n", "<CR>", function()
   -- Otherwise close the nearest parent fold
   vim.cmd("normal! zc")
 end, { desc = "Toggle nearest fold" })
+
+-- require("config.image_toggle")

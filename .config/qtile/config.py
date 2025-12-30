@@ -221,7 +221,10 @@ keys = [
     # ---close notifications---
     Key([mod2], "n", lazy.spawn("dunstctl close")),
     # ---hints start---
-    # Key([mod2], "f", lazy.spawn("hints")),
+    # Key([mod2], "f", lazy.spawn("hints -m hint")),
+    # Key([mod2], "s", lazy.spawn("hints -m scroll")),
+     Key([mod2], "f", lazy.spawn("warpd --hint")),
+     Key([mod2], "s", lazy.spawn("warpd --grid")),
     # NOTE: need to do:
     # ```
     #  pipx install git+https://github.com/AlfredoSequeida/hints.git
@@ -573,12 +576,8 @@ keys = [
             # --- screen light ---
             Key([], "l", lazy.spawn("rofi_light"), desc="screen light"),
             # --- iLovePDF style image,pdf converter ---
-            Key(
-                [],
-                "u",
-                lazy.spawn("rofi_ilovepdf"),
-                desc="Ultimate converter ( iLovePDF style image,pdf )",
-            ),
+            # TODO : can be replaced with another thing later
+            # Key([],"u",lazy.spawn("rofi_ilovepdf"),desc="Ultimate converter ( iLovePDF style image,pdf )",),
         ],
     ),
 ]
@@ -774,6 +773,16 @@ groups.append(
                 y=0.1,
                 opacity=1,
             ),
+
+            DropDown(
+                "calc",
+                "env GTK_THEME=Adwaita:dark qalculate-gtk",
+                width=0.6,
+                height=0.6,
+                x=0.2,
+                y=0.1,
+                opacity=1,
+            ),
             DropDown(
                 "note",
                 "env GTK_THEME=Adwaita:dark notorious",
@@ -853,6 +862,7 @@ keys.extend(
         Key(["mod4"], "2", lazy.group["scratchpad"].dropdown_toggle("term2")),
         Key(["mod4"], "3", lazy.group["scratchpad"].dropdown_toggle("mixer")),
         Key(["mod4"], "4", lazy.group["scratchpad"].dropdown_toggle("2ndScreen")),
+        Key(["mod4"], "5", lazy.group["scratchpad"].dropdown_toggle("calc")),
         Key(["mod4"], "8", lazy.group["scratchpad"].dropdown_toggle("whats")),
         Key(["mod4"], "9", lazy.group["scratchpad"].dropdown_toggle("deepseek")),
         Key(["mod4"], "0", lazy.group["scratchpad"].dropdown_toggle("chatgpt")),
@@ -1218,7 +1228,7 @@ floating_layout = layout.Floating(
         Match(title="tastytrade"),  # tastytrade pop-out side gutter
         Match(title="tastytrade - Portfolio Report"),  # tastytrade pop-out allocation
         Match(wm_class="tasty.javafx.launcher.LauncherFxApp"),  # tastytrade settings
-        Match(title="ImagePopup"),  # Match the feh window
+        Match(title="imv"),  # Match the imv window
         Match(wm_class="mpv"),  # mpv
         Match(wm_class="mpvk"),  # mpv
         Match(wm_class="satty"),  # satty

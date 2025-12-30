@@ -16,6 +16,13 @@ def float_edit_nvim(window):
         window.cmd_set_size_floating(650, 200)
 
 @hook.subscribe.client_new
+def float_imv(window):
+    if window.window.get_wm_class() and 'imv' in window.window.get_wm_class()[0].lower():
+        window.floating = True
+        window.cmd_set_size_floating(800, 600)
+        window.cmd_center()
+
+@hook.subscribe.client_new
 def float_link_preview(window):
     if window.window.get_name() == "link-preview":
         window.floating = True

@@ -28,6 +28,7 @@ picom &          # Compositor (transparency, animations)
 dunst &          # Notification daemon
 nm-applet &      # Network tray icon
 copyq &          # Clipboard manager
+warpd &          # waprd daemon
 
 # ---------------------------------------------------------
 # 2. Wallpaper setup
