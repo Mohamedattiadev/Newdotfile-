@@ -58,6 +58,13 @@ vim.keymap.set("n", "<leader>`", "<cmd>e #<CR>") -- switch to last buffer
 -- clear search
 vim.keymap.set("n", "<leader><leader>n", "<cmd>:nohlsearch <CR>")
 
+------------------------------------
+---  create new buffer
+-----------------------------------
+vim.keymap.set("n", "<leader>bn", function()
+  vim.cmd("tabnew") -- Create new tab with empty buffer
+  vim.cmd("Explore")
+end, { desc = "New tab (empty buffer)" })
 -------------------------------------------------------------------------------
 -- PASTE BEHAVIOR
 -------------------------------------------------------------------------------

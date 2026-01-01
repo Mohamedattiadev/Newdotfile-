@@ -1,0 +1,10 @@
+#!/bin/sh
+
+URL="$1"
+[ -z "$URL" ] && exit 1
+
+TMP="/tmp/qr_$(date +%s).png"
+
+qrencode -o "$TMP" "$URL"
+
+imv "$TMP" &

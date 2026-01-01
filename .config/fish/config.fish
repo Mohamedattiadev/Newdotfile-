@@ -126,6 +126,15 @@ function take --argument number
     head -$number
 end
 
+#NOTE: used the rust tool pomodoro-tui
+function pomo
+    if test (count $argv) -eq 2
+        pomodoro-tui -w $argv[1] -b $argv[2]
+    else
+        echo "Usage: pomo <work_minutes> <break_minutes>"
+    end
+end
+
 # # Function for org-agenda
 # function org-search -d "send a search string to org-mode"
 #     set -l output (/usr/bin/emacsclient -a "" -e "(message \"%s\" (mapconcat #'substring-no-properties \
@@ -355,9 +364,9 @@ function __nvd_open
 end
 
 # ONE behavior for EVERYTHING
-function nvim
-    __nvd_open $argv
-end
+# function nvim
+#     __nvd_open $argv
+# end
 
 function vim
     __nvd_open $argv

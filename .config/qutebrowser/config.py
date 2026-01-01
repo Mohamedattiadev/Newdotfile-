@@ -105,7 +105,7 @@ config.unbind('J', mode='normal')
 config.unbind('K', mode='normal')
 config.unbind('<Space>', mode='caret')
 config.unbind('<Ctrl-v>',mode='normal')
-config.unbind('Sq')
+# config.unbind('Sq')
 config.unbind('B', mode='normal')
 config.unbind('b', mode='normal')
 config.unbind('Sb')
@@ -174,7 +174,7 @@ config.bind('xx', 'config-cycle statusbar.show always never;; config-cycle tabs.
 config.bind('<space>iw', 'devtools window')
 config.bind('<space>I', 'devtools ')
 # config.bind('V', 'mode-enter caret ;; fake-key V')
-config.bind('Sh', 'open -t  qute://history')
+# config.bind('Sh', 'open -t  qute://history')
 config.bind('Sm', 'open -t qute://bookmarks')
 config.bind('Uc', 'spawn ~/.config/qutebrowser/scripts/reload_and_notify')
 config.bind('<space>t', 'yank selection --sel primary ;; cmd-later 100 open --tab {primary}', mode='caret')
@@ -195,8 +195,33 @@ config.bind('<Ctrl-b>', 'rl-backward-word',mode="command")
 config.bind('N', 'hint inputs', mode='normal')
 config.bind('N', 'edit-text', mode='insert')
 
-config.bind('qR', 'hint links spawn --userscript qr',mode="normal")
+
+config.bind(
+    'Qr',
+    'hint links spawn ~/.config/qutebrowser/scripts/qr {hint-url}',
+    mode='normal'
+)
+
 config.bind('Sd', 'spawn --userscript ~/.config/qutebrowser/scripts/open_download',mode="normal")
+
+config.bind('Sq', 'spawn ~/.config/qutebrowser/scripts/quick_access_rofi', mode='normal')
+
+config.bind(
+    'Sb',
+    'spawn ~/.config/qutebrowser/scripts/bookmarks_rofi',
+    mode='normal'
+)
+# config.bind(
+#     'Sb',
+#     'open -t qute://bookmarks ;; later 200 hint all',
+#     mode='normal'
+# )
+
+config.bind(
+    'Sh',
+    'spawn ~/.config/qutebrowser/scripts/history_rofi',
+    mode='normal'
+)
 config.bind('E', 'edit-url', mode='normal')
 # Bind 'Z' in normal mode to open a Zen-style floating preview
 config.bind(
@@ -245,6 +270,7 @@ c.url.searchengines = {
 # Aliases
 # -----------------------------------------------------------------------------
 c.aliases.update({
+    # IMPORTANT: u can create ur own setup here with the open-work-tabs script 
     'dev': 'spawn --userscript ~/.config/qutebrowser/scripts/open-work-tabs',
     'yt': 'open https://www.youtube.com',
     # 'gh': 'open https://github.com',

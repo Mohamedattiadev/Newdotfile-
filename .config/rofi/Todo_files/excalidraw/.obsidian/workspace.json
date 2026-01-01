@@ -13,10 +13,10 @@
             "state": {
               "type": "excalidraw",
               "state": {
-                "file": "2- Algo.md"
+                "file": "1- DesignPattern.md"
               },
               "icon": "excalidraw-icon",
-              "title": "2- Algo"
+              "title": "1- DesignPattern"
             }
           },
           {
@@ -323,8 +323,7 @@
               "title": "excalidraw"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -474,8 +473,14 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "6a458061a124672c",
+  "active": "7eeb423cf7212620",
   "lastOpenFiles": [
+    "Pasted Image 20251231231911_852.png",
+    "Pasted Image 20251231231845_993.png",
+    "Pasted Image 20251231231823_033.png",
+    "Pasted Image 20251231174526_976.png",
+    "Pasted Image 20251231174515_114.png",
+    "2- Algo.md",
     "1- DesignPattern.md",
     "Pasted Image 20251228221756_039.png",
     "Pasted Image 20251228221600_385.png",
@@ -483,11 +488,6 @@
     "Pasted Image 20251228221148_838.png",
     "Pasted Image 20251228221126_092.png",
     "Pasted Image 20251228221003_008.png",
-    "Pasted Image 20251228220815_971.png",
-    "Pasted Image 20251228220751_959.png",
-    "Pasted Image 20251228220632_858.png",
-    "Pasted Image 20251228220614_419.png",
-    "2- Algo.md",
     "0- DB.md",
     "5- OS.md",
     "3 - Data SCi..md",

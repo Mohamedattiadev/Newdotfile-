@@ -48,6 +48,8 @@ from scripts.toggle_apps import (
     toggle_google_chrome,
     toggle_brave,
 )
+from scripts.collector_app import toggle_collector
+from scripts.sum_app import toggle_or_spawn_sum
 from libqtile.config import (
     Click,
     Drag,
@@ -89,6 +91,7 @@ os.environ["QT_IM_MODULE"] = "none"
 os.environ["XMODIFIERS"] = ""
 
 
+
 mod = "mod1"  # Sets mod key to SUPER/WINDOWS
 mod2 = "mod4"  # Sets mod key to SUPER/WINDOWS
 # myTerm = "alacritty"  # My terminal of choice
@@ -97,6 +100,7 @@ myFullScreenTerm = "kitty --start-as=fullscreen"
 myBrowser2 = ["brave", "--layout.css.devPixelsPerPx=0.8"]
 myBrowser3 = ["google-chrome-stable", "--layout.css.devPixelsPerPx=0.8"]
 myBrowser4 = "qutebrowser"
+sum_file = os.path.expanduser("~/ATITODOS/TODOS.md")
 # myBrowser = ["zen-browser", "--layout.css.devPixelsPerPx=0.8"]
 # myBrowser = ["qutebrowser", "--layout.css.devPixelsPerPx=0.8"]
 # myBrowser = "firefox-small"  # My browser of choice
@@ -136,6 +140,11 @@ def kb_prev(qtile):
 
 
 
+
+
+
+
+
 #     ██╗  ██╗███████╗██╗   ██╗██████╗ ██╗███╗   ██╗██████╗ ██╗███╗   ██╗ ██████╗ ███████╗
 #     ██║ ██╔╝██╔════╝╚██╗ ██╔╝██╔══██╗██║████╗  ██║██╔══██╗██║████╗  ██║██╔════╝ ██╔════╝
 #     █████╔╝ █████╗   ╚████╔╝ ██████╔╝██║██╔██╗ ██║██║  ██║██║██╔██╗ ██║██║  ███╗███████╗
@@ -144,41 +153,16 @@ def kb_prev(qtile):
 #     ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═════╝ ╚═╝╚═╝  ╚═══╝╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝
 
 
-sum_file = os.path.expanduser("~/ATITODOS/TODOS.md")
-
-
-@lazy.function
-def toggle_or_spawn_sum(qtile):
-    title = "sum.md".lower()
-
-    # Search for existing window across ALL groups
-    for group in qtile.groups:
-        for win in group.windows:
-            if title in (win.name or "").lower():
-                # Bring to current workspace
-                win.togroup(qtile.current_group.name)
-                win.focus()
-
-                # Make it global (sticky)
-                if hasattr(win, "toggle_sticky"):
-                    win.toggle_sticky()
-
-                return
-
-    # Not found → launch
-    qtile.cmd_spawn(
-        f"{myTerm} --title sum.md  -e nvim -c':set nonumber norelativenumber' {sum_file}"
-    )
-
-
 keys = [
+
+     Key([mod2, "shift"],"d",lazy.function(toggle_collector),desc="Toggle Collector (Drop over like app) "),
+    #---------------------
     # Key([mod], "s", lazy.spawn("bash -c \"notify-send '🎤 STT' 'Speak now…' && ~/.config/qtile/scripts/stt_script.sh\"")),
     # --- Open todo manager ---
     Key(
         [mod2, "shift"],
         "s",
-        toggle_or_spawn_sum,  # ✅ NO parentheses
-        lazy.layout.shuffle_down(),
+        lazy.function(lambda qtile: toggle_or_spawn_sum(qtile, myTerm, sum_file)),
         desc="Open or focus sum.md globally",
     ),
     # ---zen-mode---
@@ -224,7 +208,7 @@ keys = [
     # Key([mod2], "f", lazy.spawn("hints -m hint")),
     # Key([mod2], "s", lazy.spawn("hints -m scroll")),
      Key([mod2], "f", lazy.spawn("warpd --hint")),
-     Key([mod2], "s", lazy.spawn("warpd --grid")),
+     # Key([mod2], "s", lazy.spawn("warpd --grid")),
     # NOTE: need to do:
     # ```
     #  pipx install git+https://github.com/AlfredoSequeida/hints.git
@@ -783,16 +767,16 @@ groups.append(
                 y=0.1,
                 opacity=1,
             ),
-            DropDown(
-                "note",
-                "env GTK_THEME=Adwaita:dark notorious",
-                width=0.3,
-                height=0.6,
-                x=0.0,
-                y=0.01,
-                opacity=1,
-                on_focus_lost_hide=False,
-            ),
+            # DropDown(
+            #     "note",
+            #     "env GTK_THEME=Adwaita:dark notorious",
+            #     width=0.3,
+            #     height=0.6,
+            #     x=0.0,
+            #     y=0.01,
+            #     opacity=1,
+            #     on_focus_lost_hide=False,
+            # ),
             ### for chatgpt & deepseek & whatsapp i decided to use brave browser by using one browser engine for all, i  used separate profiles for
             ### each browser and it will be in the ~/.config/qtile/brave-profiles
             ### by using some flags i can disable some features like sync, background networking, component update, etc which will make it faster and reduce
@@ -1232,6 +1216,7 @@ floating_layout = layout.Floating(
         Match(wm_class="mpv"),  # mpv
         Match(wm_class="mpvk"),  # mpv
         Match(wm_class="satty"),  # satty
+        Match(wm_class="collector"), # collector
         Match(wm_class="emacs"),  # emacs
         Match(title="link-preview"),  # preview of nvim (qutebrowser edit link)
         Match(wm_class="org.gnome.NautilusPreviewer"),  # make the preview float

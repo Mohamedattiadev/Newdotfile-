@@ -22,6 +22,22 @@ def float_imv(window):
         window.cmd_set_size_floating(800, 600)
         window.cmd_center()
 
+
+
+
+
+
+# @hook.subscribe.client_managed
+# def float_collector(window):
+#     if window.window.get_wm_class() and "collector" in window.window.get_wm_class()[0].lower():
+#         window.floating = True
+# @hook.subscribe.client_focus
+# def keep_collector_floating(window):
+#     if window.window.get_wm_class() and "collector" in window.window.get_wm_class()[0].lower():
+#         if not window.floating:
+#             window.floating = True
+
+
 @hook.subscribe.client_new
 def float_link_preview(window):
     if window.window.get_name() == "link-preview":
