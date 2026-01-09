@@ -4,6 +4,19 @@
 # | |_| || |    http://www.gitlab.com/dwt1/
 # |____/ |_|
 #
+#
+# to make the tty colored
+set -gx TCT_NO_RC_WARN 1
+if test "$TERM" = linux; and not set -q TTY_COLORS_APPLIED
+    set -gx TTY_COLORS_APPLIED 1
+    ~/.config/tty-colors/tty-color-tool set-soft ~/.config/tty-colors/doom-one.colors
+end
+
+function fish_exit --on-event fish_exit
+    reset
+end
+#
+#
 # My fish config. Not much to see here; just some pretty standard stuff.
 
 ### ADDING TO THE PATH

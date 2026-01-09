@@ -219,9 +219,6 @@ keys = [
     #       sudo tee -a /etc/environment >/dev/null <<EOF
     #       # Required for 'hints'
     #       ACCESSIBILITY_ENABLED=1
-    #       GTK_MODULES=gail:atk-bridge
-    #       OOO_FORCE_DESKTOP=gnome
-    #       GNOME_ACCESSIBILITY=1
     #       QT_ACCESSIBILITY=1
     #       QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1
     #       EOF
@@ -574,6 +571,10 @@ keys = [
 #  ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝     ╚══════╝
 
 
+
+
+
+
 # NOTE: some icons may u need
 # group_labels = ["", "", "👁", "", "", "", "✀", "🗯", "", "⎙"]
 # group_labels = [
@@ -881,6 +882,62 @@ keys.extend(
 # (logo) ( monadtall ) | nvim config.py ~/c/qtile     CPU:54%  MEM:3445M  DISK:84%  SSD:86G  VOL:49%  LANG:EN  Sun,Nov 02 00:54 (systray)
 
 
+def parse_task_name(text):
+    REMOVE = [
+        # Browsers
+        " - Mozilla Firefox",
+        " - Firefox",
+        " - Chromium",
+        " - Google Chrome",
+        " - Brave",
+        " - Microsoft Edge",
+        " - Vivaldi",
+        " - Opera",
+
+        # LibreOffice
+        " — LibreOffice Writer",
+        " — LibreOffice Calc",
+        " — LibreOffice Impress",
+
+        # Editors / IDEs
+        " - Visual Studio Code",
+        " - Code",
+        " - VS Code",
+        " — Visual Studio Code",
+        " - Sublime Text",
+        " - Atom",
+        " - IntelliJ IDEA",
+        " - PyCharm",
+
+        # Terminals
+        " — Alacritty",
+        " — Kitty",
+        " — WezTerm",
+        " — GNOME Terminal",
+        " - Konsole",
+
+        # Media
+        " - VLC media player",
+        " - MPV",
+        " — Spotify",
+        " - YouTube",
+
+        # System / DE noise
+        "Built-in Widgets —",
+        " — Settings",
+        " — Preferences",
+        " — System Settings",
+
+        # Generic separators
+        " — ",
+        " - ",
+    ]
+
+    for s in REMOVE:
+        text = text.replace(s, "")
+
+    return text
+
 def chip(WCls, **kwargs):
     deco = [
         RectDecoration(
@@ -986,28 +1043,87 @@ def init_widgets_list():
         widget.TextBox(
             text="|", font="Ubuntu Mono", foreground=colors[1], padding=3, fontsize=14
         ),
+# widget.TaskList(padding=4,margin=5,foreground=colors[1],fontsize=10,background=None,),
+# NOTE: will be added later "weather" it is working , but the screen size is not good enough for it
+# chip(
+#     ewidget.Wttr,
+#     location={"Ankara": "Ankara"},
+#     format="%c  %t ",
+#     units="m",          # metric (°C)
+#     lang="en",          # or "tr"
+#     fontsize=11,
+#     padding=12,
+#     update_interval=600,
+# ),
+#
+widget.TaskList(
+    font="JetBrainsMono Nerd Font",
+    fontsize=11,
+
+    # ICONS
+    icon_size=16,          # ← key setting (default is often too small)
+    # theme_mode="preferred",
+ markup=True,
+
+ # NOTE:  NF =""  , F=focused, V=floating, VF=floating and focused
+ 
+markup_normal="",
+markup_focused='<span weight="bold">F {}</span>',
+
+markup_floating='<span foreground="#da8548">V {}</span>',
+
+markup_focused_floating='<span weight="bold" foreground="#ffaa00">VF {}</span>',
+
+markup_minimized='<span foreground="#ff6c6b">↓ {}</span>',
+
+max_title_width=200,
+    padding_x=3,
+    padding_y=2,
+    margin_x=3,
+    margin_y=4,
+    spacing=2,
+parse_text=parse_task_name,
+    window_name_location_offset=1,
+window_name_location="left",
+    # COLORS
+    foreground=colors[1],
+    background=None,
+    # HIGHLIGHT
+    highlight_method="text",
+    border=colors[7],
+    borderwidth=0,
+
+    # TITLE CONTROL
+    #
+txt_minimized="↓  ",
+    # title_width_method="uniform",
+
+    # BEHAVIOR
+    stretch=False,
+),
         # the window name part (not a styled chip)
-        widget.WindowName(
-            foreground=colors[1],
-            max_chars=50,
-            padding=4,
-            margin=5,
-        ),
+        # widget.WindowName(
+        #     foreground=colors[1],
+        #     max_chars=50,
+        #     padding=4,
+        #     margin=5,
+        # ),
         # space from left  to keep group centered
+# ewidget.Spacer(length=52),
         ewidget.Spacer(length=bar.STRETCH),
         # the group box part
         chip(
             ewidget.GroupBox,
-            fontsize=9,
-            margin_y=6,
+            fontsize=10,
+            margin_y=2,
             margin_x=8,
-            padding_y=3,
+            padding_y=2,
             padding_x=8,
-            borderwidth=3,
+            borderwidth=4,
             active=colors[8],
             inactive=colors[1],
             highlight_color=colors[2],
-            highlight_method="line",
+            highlight_method="text",
             this_current_screen_border=colors[7],
             this_screen_border=colors[4],
             other_current_screen_border=colors[7],
@@ -1120,7 +1236,7 @@ def init_widgets_screen1():
 # All other monitors' bars will display everything but widgets 22 (systray) and 23 (spacer).
 def init_widgets_screen2():
     widgets_screen2 = init_widgets_list()
-    del widgets_screen2[22:24]
+    # del widgets_screen2[22:24]
     return widgets_screen2
 
 
@@ -1154,7 +1270,13 @@ def init_screens():
         Screen(
             top=bar.Bar(
                 widgets=init_widgets_screen2(),
-                size=26,
+                # all widgets (including your chip) go in this list
+                size=28,
+                margin=[5, 10, 5, 10],  # top, right, bottom, left
+                # IMP: this is the background color of the bar
+                background="#11111b00",  # transparent
+
+
             ),
         ),
     ]

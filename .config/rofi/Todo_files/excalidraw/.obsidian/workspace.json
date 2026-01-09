@@ -4,326 +4,47 @@
     "type": "split",
     "children": [
       {
-        "id": "3238cd7fded56ec7",
+        "id": "7a9d76dcfd408fc6",
         "type": "tabs",
         "children": [
           {
-            "id": "7eeb423cf7212620",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "1- DesignPattern.md"
-              },
-              "icon": "excalidraw-icon",
-              "title": "1- DesignPattern"
-            }
-          },
-          {
-            "id": "17118f78ae596fa0",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "1- DesignPattern.md"
-              },
-              "icon": "excalidraw-icon",
-              "title": "1- DesignPattern"
-            }
-          },
-          {
-            "id": "ced94222f97574c8",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "1- DesignPattern.md"
-              },
-              "icon": "excalidraw-icon",
-              "title": "1- DesignPattern"
-            }
-          },
-          {
-            "id": "c7d53a3db31b066a",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "1- DesignPattern.md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "8bd7ee0c56bffa48",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "0- DB.md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "a16788596bc5122e",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "0- DB.md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "e6dd71cdd087ebe0",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "0- DB.md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "1f0769e94041ace4",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "0- DB.md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "1bff8fa18272d889",
+            "id": "32bc6df7de0c4626",
             "type": "leaf",
             "state": {
               "type": "excalidraw",
               "state": {
                 "file": "5- OS.md"
               },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
+              "icon": "excalidraw-icon",
+              "title": "5- OS"
             }
           },
           {
-            "id": "76661c5d187fd0a6",
+            "id": "241ce8f3a55a62a6",
             "type": "leaf",
             "state": {
               "type": "excalidraw",
               "state": {
                 "file": "5- OS.md"
               },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
+              "icon": "excalidraw-icon",
+              "title": "5- OS"
             }
           },
           {
-            "id": "a952d1402126c903",
+            "id": "9d44302ac8e4e6d1",
             "type": "leaf",
             "state": {
               "type": "excalidraw",
               "state": {
                 "file": "5- OS.md"
               },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "935c61e4d4423950",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "0- DB.md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "028c58b2e84f4f06",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "3 - Data SCi..md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "d4e5228a87aac2ac",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "3 - Data SCi..md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "56499db93095b900",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "3 - Data SCi..md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "f1b0d49d2512cbce",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "0- DB.md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "d6c1598445d59586",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "2- Algo.md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "bef42b93897daa11",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "s.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "s"
-            }
-          },
-          {
-            "id": "3d3052b5e297b958",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "3 - Data SCi..md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "c94fcbbad896125d",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "3 - Data SCi..md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "c46a2ce9cd28df61",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "3 - Data SCi..md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "d6c6ebfc3886b59d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Untitled.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Untitled"
-            }
-          },
-          {
-            "id": "2a66618f45c9e722",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "4- os proJect.md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "6866d7fae785a4fd",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "1- DesignPattern.md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "185407ac0e3baef6",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "0- DB.md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
-            }
-          },
-          {
-            "id": "0d4939d75914257b",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "0- DB.md"
-              },
-              "icon": "lucide-ghost",
-              "title": "excalidraw"
+              "icon": "excalidraw-icon",
+              "title": "5- OS"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -380,7 +101,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 308.5,
     "collapsed": true
   },
   "right": {
@@ -432,7 +153,7 @@
               "state": {
                 "sortOrder": "frequency",
                 "useHierarchy": true,
-                "showSearch": false,
+                "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-tags",
@@ -440,25 +161,26 @@
             }
           },
           {
-            "id": "64f670d082045cf5",
+            "id": "723304e452e6e36d",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "0- Excalidraw.md",
+                "file": "1- DesignPattern.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of 0- Excalidraw"
+              "title": "Outline of 1- DesignPattern"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 200,
     "collapsed": true
   },
   "left-ribbon": {
@@ -473,25 +195,31 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "7eeb423cf7212620",
+  "active": "17e4f65d8439bb0b",
   "lastOpenFiles": [
-    "Pasted Image 20251231231911_852.png",
-    "Pasted Image 20251231231845_993.png",
-    "Pasted Image 20251231231823_033.png",
-    "Pasted Image 20251231174526_976.png",
-    "Pasted Image 20251231174515_114.png",
-    "2- Algo.md",
-    "1- DesignPattern.md",
-    "Pasted Image 20251228221756_039.png",
-    "Pasted Image 20251228221600_385.png",
-    "Pasted Image 20251228221247_478.png",
-    "Pasted Image 20251228221148_838.png",
-    "Pasted Image 20251228221126_092.png",
-    "Pasted Image 20251228221003_008.png",
-    "0- DB.md",
     "5- OS.md",
-    "3 - Data SCi..md",
+    "Pasted Image 20260110000332_343.png",
+    "Pasted Image 20260110000209_462.png",
+    "Pasted Image 20260109235850_616.png",
+    "Pasted Image 20260109232841_540.png",
+    "Pasted Image 20260109232555_343.png",
+    "Pasted Image 20260109232453_455.png",
+    "Pasted Image 20260109232144_993.png",
+    "Pasted Image 20260109231951_800.png",
+    "Pasted Image 20260109175217_894.png",
+    "Pasted Image 20260109175007_222.png",
+    "2- Algo.md",
+    "0- DB.md",
+    "1- DesignPattern.md",
+    "2026-01-07.md",
+    "Untitled 1.canvas",
+    "Untitled.canvas",
+    "Drawing 2026-01-07 22.14.21.excalidraw.md",
+    "db continue.md",
+    "Drawing 2026-01-07 15.44.54.excalidraw.md",
+    "Drawing 2026-01-04 18.58.17.excalidraw.md",
     "4- os proJect.md",
+    "3 - Data SCi..md",
     "Untitled.md",
     "s.md",
     "img",
