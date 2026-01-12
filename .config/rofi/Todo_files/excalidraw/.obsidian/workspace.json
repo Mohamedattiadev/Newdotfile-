@@ -8,31 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "32bc6df7de0c4626",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "5- OS.md"
-              },
-              "icon": "excalidraw-icon",
-              "title": "5- OS"
-            }
-          },
-          {
-            "id": "241ce8f3a55a62a6",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "5- OS.md"
-              },
-              "icon": "excalidraw-icon",
-              "title": "5- OS"
-            }
-          },
-          {
-            "id": "9d44302ac8e4e6d1",
+            "id": "a62b8a03945dc62a",
             "type": "leaf",
             "state": {
               "type": "excalidraw",
@@ -43,8 +19,7 @@
               "title": "5- OS"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -101,7 +76,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 308.5,
+    "width": 304.5,
     "collapsed": true
   },
   "right": {
@@ -195,27 +170,30 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "17e4f65d8439bb0b",
+  "active": "a62b8a03945dc62a",
   "lastOpenFiles": [
-    "5- OS.md",
-    "Pasted Image 20260110000332_343.png",
-    "Pasted Image 20260110000209_462.png",
-    "Pasted Image 20260109235850_616.png",
-    "Pasted Image 20260109232841_540.png",
-    "Pasted Image 20260109232555_343.png",
-    "Pasted Image 20260109232453_455.png",
-    "Pasted Image 20260109232144_993.png",
-    "Pasted Image 20260109231951_800.png",
-    "Pasted Image 20260109175217_894.png",
-    "Pasted Image 20260109175007_222.png",
-    "2- Algo.md",
-    "0- DB.md",
     "1- DesignPattern.md",
+    "5- OS.md",
+    "0- DB.md",
+    "Pasted Image 20260112234216_303.png",
+    "2- Algo.md",
+    "Pasted Image 20260111154642_169.png",
+    "Pasted Image 20260111142312_644.png",
+    "Pasted Image 20260111142135_822.png",
+    "db continue.md",
+    "Drawing 2026-01-10 16.12.58.excalidraw.md",
     "2026-01-07.md",
+    "Drawing 2026-01-10 16.09.27.excalidraw.md",
+    "Pasted Image 20260110145520_788.png",
+    "Drawing 2026-01-10 15.02.04.excalidraw.md",
+    "Pasted Image 20260110145848_488.png",
+    "Pasted Image 20260110145539_744.png",
+    "Pasted Image 20260110145355_328.png",
+    "Pasted Image 20260110144944_564.png",
+    "Pasted Image 20260110144855_625.png",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Drawing 2026-01-07 22.14.21.excalidraw.md",
-    "db continue.md",
     "Drawing 2026-01-07 15.44.54.excalidraw.md",
     "Drawing 2026-01-04 18.58.17.excalidraw.md",
     "4- os proJect.md",

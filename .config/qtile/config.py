@@ -90,8 +90,6 @@ os.environ["GTK_IM_MODULE"] = "none"
 os.environ["QT_IM_MODULE"] = "none"
 os.environ["XMODIFIERS"] = ""
 
-
-
 mod = "mod1"  # Sets mod key to SUPER/WINDOWS
 mod2 = "mod4"  # Sets mod key to SUPER/WINDOWS
 # myTerm = "alacritty"  # My terminal of choice
@@ -140,6 +138,12 @@ def kb_prev(qtile):
 
 
 
+@hook.subscribe.startup_complete
+def xkb_setup():
+    subprocess.run(
+        ["setxkbmap", "-option", "altwin:alt_is_meta"],
+        check=False
+    )
 
 
 
@@ -155,6 +159,15 @@ def kb_prev(qtile):
 
 keys = [
 
+   Key(
+        [mod2, "shift"],
+        "r",
+      lazy.spawn(
+            'sh -c "setxkbmap -option altwin:alt_is_meta && notify-send \'Qtile\' \'Alt keymap reapplied\'"'
+        ),
+        desc="Reapply XKB Alt/Meta mapping",
+
+    ),
      Key([mod2, "shift"],"d",lazy.function(toggle_collector),desc="Toggle Collector (Drop over like app) "),
     #---------------------
     # Key([mod], "s", lazy.spawn("bash -c \"notify-send '🎤 STT' 'Speak now…' && ~/.config/qtile/scripts/stt_script.sh\"")),
@@ -173,7 +186,7 @@ keys = [
     # --- Gromit-MPX controls ---
     Key([mod2, "shift"], "w", lazy.spawn("gromit-mpx -t"), desc="Gromit: toggle draw"),
     Key([mod2, "shift"], "z", lazy.spawn("gromit-mpx -z"), desc="Gromit: undo"),
-    Key([mod2, "shift"], "r", lazy.spawn("gromit-mpx -y"), desc="Gromit: redo"),
+    # Key([mod2, "shift"], "r", lazy.spawn("gromit-mpx -y"), desc="Gromit: redo"),
     Key([mod2, "shift"], "c", lazy.spawn("gromit-mpx -c"), desc="Gromit: clear"),
     Key(
         [mod2, "shift"],
