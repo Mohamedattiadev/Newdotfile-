@@ -1,14 +1,14 @@
 {
   "main": {
-    "id": "591252f9099c4c7b",
+    "id": "24d17e6d38a42d48",
     "type": "split",
     "children": [
       {
-        "id": "7a9d76dcfd408fc6",
+        "id": "66867da5dc00aee8",
         "type": "tabs",
         "children": [
           {
-            "id": "a62b8a03945dc62a",
+            "id": "992ac0307980b097",
             "type": "leaf",
             "state": {
               "type": "excalidraw",
@@ -25,15 +25,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "9183d67646efcfd1",
+    "id": "4e33486ec2fbc83e",
     "type": "split",
     "children": [
       {
-        "id": "8c358305f2266180",
+        "id": "29bcefcfa654d733",
         "type": "tabs",
         "children": [
           {
-            "id": "4b25c00012f8005f",
+            "id": "1c4f6ae54d49b402",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -46,7 +46,7 @@
             }
           },
           {
-            "id": "d18ce56898fc9385",
+            "id": "983132c108b87d89",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -63,7 +63,7 @@
             }
           },
           {
-            "id": "fce01d81df5351bd",
+            "id": "16463eeb6f2191be",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -76,24 +76,23 @@
       }
     ],
     "direction": "horizontal",
-    "width": 304.5,
+    "width": 300,
     "collapsed": true
   },
   "right": {
-    "id": "6fd73f74f59cd3d6",
+    "id": "7318e9de522200c4",
     "type": "split",
     "children": [
       {
-        "id": "a58c44d3862aa854",
+        "id": "d516fb386d92095c",
         "type": "tabs",
         "children": [
           {
-            "id": "d5a29006cdfa5472",
+            "id": "d7ab9138d31db391",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "0- Excalidraw.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,32 +102,31 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for 0- Excalidraw"
+              "title": "Backlinks"
             }
           },
           {
-            "id": "c43c1bdc12fa0c2c",
+            "id": "7205c7df390a0464",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "0- Excalidraw.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from 0- Excalidraw"
+              "title": "Outgoing links"
             }
           },
           {
-            "id": "d8d904bf9c198d14",
+            "id": "94c9f981074a8bb0",
             "type": "leaf",
             "state": {
               "type": "tag",
               "state": {
                 "sortOrder": "frequency",
                 "useHierarchy": true,
-                "showSearch": true,
+                "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-tags",
@@ -136,26 +134,24 @@
             }
           },
           {
-            "id": "723304e452e6e36d",
+            "id": "532c98b59cd63a3f",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "1- DesignPattern.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of 1- DesignPattern"
+              "title": "Outline"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 200,
+    "width": 300,
     "collapsed": true
   },
   "left-ribbon": {
@@ -170,38 +166,10 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "a62b8a03945dc62a",
+  "active": "992ac0307980b097",
   "lastOpenFiles": [
-    "1- DesignPattern.md",
-    "5- OS.md",
-    "0- DB.md",
-    "Pasted Image 20260112234216_303.png",
-    "2- Algo.md",
-    "Pasted Image 20260111154642_169.png",
-    "Pasted Image 20260111142312_644.png",
-    "Pasted Image 20260111142135_822.png",
-    "db continue.md",
-    "Drawing 2026-01-10 16.12.58.excalidraw.md",
-    "2026-01-07.md",
-    "Drawing 2026-01-10 16.09.27.excalidraw.md",
-    "Pasted Image 20260110145520_788.png",
-    "Drawing 2026-01-10 15.02.04.excalidraw.md",
-    "Pasted Image 20260110145848_488.png",
-    "Pasted Image 20260110145539_744.png",
-    "Pasted Image 20260110145355_328.png",
-    "Pasted Image 20260110144944_564.png",
-    "Pasted Image 20260110144855_625.png",
-    "Untitled 1.canvas",
-    "Untitled.canvas",
-    "Drawing 2026-01-07 22.14.21.excalidraw.md",
-    "Drawing 2026-01-07 15.44.54.excalidraw.md",
-    "Drawing 2026-01-04 18.58.17.excalidraw.md",
-    "4- os proJect.md",
-    "3 - Data SCi..md",
-    "Untitled.md",
-    "s.md",
-    "img",
-    "0- DB.restored.md",
-    "0- Excalidraw.restored.md"
+    "Pasted Image 20260113144819_945.png",
+    "Pasted Image 20260113124945_415.png",
+    "Pasted Image 20260113124859_354.png"
   ]
 }

@@ -138,14 +138,6 @@ def kb_prev(qtile):
 
 
 
-@hook.subscribe.startup_complete
-def xkb_setup():
-    subprocess.run(
-        ["setxkbmap", "-option", "altwin:alt_is_meta"],
-        check=False
-    )
-
-
 
 
 
@@ -162,11 +154,10 @@ keys = [
    Key(
         [mod2, "shift"],
         "r",
-      lazy.spawn(
-            'sh -c "setxkbmap -option altwin:alt_is_meta && notify-send \'Qtile\' \'Alt keymap reapplied\'"'
-        ),
-        desc="Reapply XKB Alt/Meta mapping",
-
+   lazy.spawn(
+        "sh -c 'xmodmap ~/.Xmodmap && notify-send \"Qtile\" \"Alt keymap reapplied\"'"
+    ),
+    desc="Reapply Alt keymap safely",
     ),
      Key([mod2, "shift"],"d",lazy.function(toggle_collector),desc="Toggle Collector (Drop over like app) "),
     #---------------------
