@@ -27,26 +27,34 @@ safe_del("n", "<leader>-")
 safe_del("n", "<leader>|")
 safe_del("n", "<leader>wd")
 safe_del("n", "<leader>wm")
-safe_del("n", "<leader>bb")
+-- safe_del("n", "<leader>bb")
 safe_del("n", "<S-h>")
 safe_del("n", "<S-l>")
 safe_del("n", "<leader>/")
 safe_del("v", "t")
 safe_del("n", "t")
+safe_del("n", "<leader>ft")
+safe_del("n", "<leader>fT")
 safe_del({ "i", "x", "n", "s" }, "<C-s>")
+safe_del("n", "<leader>fg")
 
--------------------------------------------------------------------------------
--- FOLD HIGHLIGHT COLORS
--------------------------------------------------------------------------------
-vim.api.nvim_set_hl(0, "FoldLine", { fg = "#c8caca", bg = "#1e222a" })
-vim.api.nvim_set_hl(0, "FoldInfo", { fg = "#c678dd", bold = true })
-vim.api.nvim_set_hl(0, "FoldHeaderH1", { fg = "#bd9cf9", bold = true })
-vim.api.nvim_set_hl(0, "FoldHeaderH2", { fg = "#51afef", bold = true })
-vim.api.nvim_set_hl(0, "FoldHeaderH3", { fg = "#ffb86c", bold = true })
-vim.api.nvim_set_hl(0, "FoldHeaderH4", { fg = "#c678dd", bold = true })
-vim.api.nvim_set_hl(0, "FoldHeaderH5", { fg = "#98be65", bold = true })
-vim.api.nvim_set_hl(0, "FoldHeaderH6", { fg = "#51afef", bold = true })
+----------
+---after delete
+----------
 
+-- Project-wide TODOs
+vim.keymap.set("n", "<leader>fT", "<cmd>TodoTelescope<cr>", { desc = "TODOs in project" })
+-- Current file TODOs
+vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope cwd=false<cr>", { desc = "TODOs in current file" })
+-- Fuzzy find recent buffers
+vim.keymap.set(
+  "n",
+  "<leader>bb",
+  ":Telescope buffers<cr>",
+  { noremap = true, silent = true, desc = "Fuzzy find recent buffers" }
+)
+--  live grep
+vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live grep" })
 -------------------------------------------------------------------------------
 -- SAVE / QUIT
 -------------------------------------------------------------------------------
@@ -59,12 +67,70 @@ vim.keymap.set("n", "<leader>`", "<cmd>e #<CR>") -- switch to last buffer
 vim.keymap.set("n", "<leader><leader>n", "<cmd>:nohlsearch <CR>")
 
 ------------------------------------
+--- for arabic layout
+------------------------------------
+-- vim.keymap.set("n", "ه", "i", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ه", "i", { noremap = true, silent = true })
+-- vim.keymap.set("n", "يي", "dd", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ؤهص", "ciw", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ؤهلا", "cib", { noremap = true, silent = true })
+-- vim.keymap.set("n", "غغ", "yy", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ح", "p", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ء", "x", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ا", "h", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ت", "j", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ن", "k", { noremap = true, silent = true })
+-- vim.keymap.set("n", "م", "l", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ع", "u", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ق", "r", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ص", "w", { noremap = true, silent = true })
+-- -- vim.keymap.set("n" "لا", "b", { noremap = true, silent = true })
+--
+-- vim.keymap.set("v", "ا", "h", { noremap = true, silent = true })
+-- vim.keymap.set("v", "ت", "j", { noremap = true, silent = true })
+-- vim.keymap.set("v", "ن", "k", { noremap = true, silent = true })
+-- vim.keymap.set("v", "م", "l", { noremap = true, silent = true })
+--
+-- vim.keymap.set("n", "<C-ق>", "<C-r>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ر", "v", { noremap = true, silent = true })
+-- vim.keymap.set("n", "غ", "y", { noremap = true, silent = true })
+-- vim.keymap.set("n", "ش", "a", { noremap = true, silent = true })
+--
+
+-- vim.keymap.set("n", "<leader>ص", "<cmd>w<CR>")
+-- vim.keymap.set("n", "<leader>ض", "<cmd>q<CR>")
+--
+-- vim.keymap.set("n", "<tab>ا", "5h")
+-- vim.keymap.set("n", "<tab>ت", "5j")
+-- vim.keymap.set("n", "<tab>ن", "5k")
+-- vim.keymap.set("n", "<tab>م", "5l")
+-- vim.keymap.set("v", "<tab>ا", "5h")
+-- vim.keymap.set("v", "<tab>ت", "5j")
+-- vim.keymap.set("v", "<tab>ن", "5k")
+-- vim.keymap.set("v", "<tab>م", "5l")
+--
+
+-- c+o  , c+i,gcc,gg,G ...
+
+-- vim.keymap.set("v", "<S-ت>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+-- vim.keymap.set("v", "<S-ن>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+
+-- vim.keymap.set("n", "<S-م>", "gt", { desc = "Next tab" })
+-- vim.keymap.set("n", "<S-ا>", "gT", { desc = "Prev tab" })
+
+------------------------------------
 ---  create new buffer
 -----------------------------------
 vim.keymap.set("n", "<leader>bn", function()
-  vim.cmd("tabnew") -- Create new tab with empty buffer
-  vim.cmd("Explore")
-end, { desc = "New tab (empty buffer)" })
+  vim.cmd("tabnew")
+
+  local buf = vim.api.nvim_buf_get_name(0)
+  if vim.fn.filereadable(buf) == 1 then
+    require("mini.files").open(buf, true)
+  else
+    require("mini.files").open(vim.uv.cwd(), true)
+  end
+end, { desc = "New tab + mini.files (smart)" })
 -------------------------------------------------------------------------------
 -- PASTE BEHAVIOR
 -------------------------------------------------------------------------------

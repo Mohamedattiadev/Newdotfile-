@@ -10,9 +10,12 @@
 # IMPORTANT! Keep the '-p' flag at the end of the DMENU and RMENU variables.
 # Also, keep the '--prompt' flag at the end of the FMENU variable.
 # These are needed as we use prompts in the scripts.
-DMENU="dmenu -i -l 20 -p"
+
+# DMENU="dmenu -i -l 20 -p"
+DMENU="rofi -dmenu -i -p"
 RMENU="rofi -dmenu -i -p"
-FMENU="fzf --bind=enter:replace-query+print-query --border=rounded --margin=5% --color=dark --height 100% --reverse --header=$(basename "$0") --info=hidden --header-first --prompt"
+FMENU="rofi -dmenu -i -p"
+# FMENU="fzf --bind=enter:replace-query+print-query --border=rounded --margin=5% --color=dark --height 100% --reverse --header=$(basename "$0") --info=hidden --header-first --prompt"
 
 
 ## DEFAULT PROGRAMS
@@ -173,7 +176,11 @@ colpick_list[purple]="#bd9cf9"
 # weather_locations="Texas, United States
 # Paris, France
 # Kyiv, Ukraine"
-weather_locations=""
+weather_locations="Ankara, Turkey
+Istanbul, Turkey
+Alexandria, Egypt
+Cairo, Egypt
+"
 
 # use the weather_opts variable to set additional flags:
 # weather_opts="flag1&flag2&flag3=somevalue"

@@ -7,13 +7,27 @@
 # Every section is labeled and explained.
 
 COLORSCHEME=DoomOne
+#----------------------------------------------------------
+# -1. keymaps (capslock , alt issues solver)
+#----------------------------------------------------------
+setxkbmap -layout us -option
+xmodmap ~/.Xmodmap
+
+# NOTE:replaced
+# (
+#   sleep 2
+#   setxkbmap -layout us,ara -option grp:caps_toggle,grp_led:caps
+#   notify-send "capslock layout set"
+# ) &
+# setxkbmap -layout us,ara -option grp:caps_toggle,grp_led:caps
 
 # ---------------------------------------------------------
 # 0. Pre-X configuration
 # ---------------------------------------------------------
 # If you're running inside a virtual machine, apply resolution fix.
 # This runs ONLY in VM, and silently exits on normal hardware.
-(systemd-detect-virt | grep -qv none && ~/.config/qtile/scripts/set_vm_resolution.sh) &
+
+# (systemd-detect-virt | grep -qv none && ~/.config/qtile/scripts/set_vm_resolution.sh) &
 
 # ---------------------------------------------------------
 # 1. Core environment (ESSENTIAL FAST START)
@@ -21,7 +35,7 @@ COLORSCHEME=DoomOne
 # These should start IMMEDIATELY without delays.
 # Avoid slow apps here — keep this section lightweight.
 
-~/.screenlayout/layout.sh & # Apply monitor setup
+# ~/.screenlayout/layout.sh & # Apply monitor setup
 # lxsession &
 blueman-applet & # Bluetooth tray icon
 picom &          # Compositor (transparency, animations)
@@ -85,14 +99,19 @@ pamac-tray-icon-plasma & # Update notifier
 # ---------------------------------------------------------
 # Starts Brave after system settles.
 
+# (
+#   sleep 8
+#   brave --new-window https://www.youtube.com \  # https://yewtu.be/  instead of youtube
+#   --disable-sync \
+#     --disable-breakpad \
+#     --disable-features=Translate,AutofillServerCommunication \
+#     --no-first-run \
+#     --process-per-site
+# ) &
+
 (
   sleep 8
-  brave --new-window https://www.youtube.com \
-    --disable-sync \
-    --disable-breakpad \
-    --disable-features=Translate,AutofillServerCommunication \
-    --no-first-run \
-    --process-per-site
+  qutebrowser --target window https://yewtu.be/
 ) &
 
 # ---------------------------------------------------------
@@ -102,9 +121,10 @@ pamac-tray-icon-plasma & # Update notifier
 
 (
   sleep 40
-  ~/.config/qtile/scripts/keyboard_layout_watcher.sh &
-  ~/.config/qtile/scripts/watch_todo_conflicts.sh &
-  ~/.config/qtile/scripts/battery-events.sh &
+  keyboard_layout_watcher &
+  # ~/.config/qtile/scripts/watch_todo_conflicts.sh &
+  adhkar &
+  battery-events &
 ) &
 
 # ---------------------------------------------------------
@@ -113,10 +133,10 @@ pamac-tray-icon-plasma & # Update notifier
 # Gromit-mpx (screen annotation tool) starts much later to avoid interfering
 # with early session setup.
 
-(
-  sleep 120
-  gromit-mpx &
-) &
+# (
+#   sleep 120
+#   gromit-mpx &
+# ) &
 
 # ---------------------------------------------------------
 # 8. Neovim Daemon (IMPORTANT)

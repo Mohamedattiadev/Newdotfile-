@@ -8,7 +8,7 @@ set -euo pipefail
 
 # --- Configuration ---
 RMENU="rofi -dmenu -i -p"
-DMEDITOR="kitty -e nvim"
+DMEDITOR="alacritty -e vim"
 CONFIG_DIR="$HOME/.config"
 DOTFILES_DIR="$HOME/.dotfiles" # Ensure this matches your actual path
 SEPARATOR="➜"

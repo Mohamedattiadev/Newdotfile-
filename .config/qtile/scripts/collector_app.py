@@ -1,57 +1,47 @@
-def toggle_collector(qtile):
-    global _spawning_collector
+# NOTE:  here the best logic was : in order to avoid conflicts with other apps and to hide the collector when it is not needed
+# is to not "minimize" is to "move it out of the screen" 
 
+
+COLLECTOR_GROUP = "_collector"
+
+
+def _find_collector(qtile):
     for w in qtile.windows_map.values():
-        if w.window.get_wm_class() and "collector" in w.window.get_wm_class()[0].lower():
+        wm = w.window.get_wm_class()
+        if wm and "collector" in wm[0].lower():
+            return w
+    return None
 
-            _spawning_collector = False  # ✅ window exists now
 
-            current_group = qtile.current_group
+def _show_collector(qtile, w):
+    screen = qtile.current_screen
+    margin = 8
+    width = 360
 
-            # 🚀 CASE 1: on another workspace → bring directly
-            if w.group != current_group:
-                w.togroup(current_group.name)
+    x = screen.x + screen.width - width - margin
+    y = screen.y + margin
 
-                if w.minimized:
-                    w.toggle_minimize()
+    w.floating = True
+    w.togroup(qtile.current_group.name)
+    w.cmd_set_position_floating(x, y)
+    w.cmd_bring_to_front()
+    w.focus()
 
-                w.floating = True
 
-                screen = qtile.current_screen
-                margin = 8
-                x = screen.x + screen.width - 360 - margin
-                y = screen.y + margin
+def _hide_collector(qtile, w):
+    # park it in the hidden collector group
+    w.togroup(COLLECTOR_GROUP)
 
-                w.cmd_set_position_floating(x, y)
-                w.cmd_bring_to_front()
-                w.focus()
-                return
 
-            # 🚀 CASE 2: same workspace
-            if w.minimized:
-                w.toggle_minimize()
-                w.floating = True
+def toggle_collector(qtile):
+    w = _find_collector(qtile)
 
-            elif qtile.current_window != w:
-                w.focus()
-                w.cmd_bring_to_front()
+    if w:
+        if w.group and w.group.name == COLLECTOR_GROUP:
+            _show_collector(qtile, w)
+        else:
+            _hide_collector(qtile, w)
+        return
 
-            else:
-                w.toggle_minimize()
-                return
-
-            screen = qtile.current_screen
-            margin = 8
-            x = screen.x + screen.width - 360 - margin
-            y = screen.y + margin
-
-            w.cmd_set_position_floating(x, y)
-            w.cmd_bring_to_front()
-            w.focus()
-            return
-
-    # 🚀 CASE 3: not running → spawn (LOCKED)
-    if not _spawning_collector:
-        _spawning_collector = True
-        qtile.cmd_spawn("flatpak run it.mijorus.collector")
+    qtile.cmd_spawn("flatpak run it.mijorus.collector")
 

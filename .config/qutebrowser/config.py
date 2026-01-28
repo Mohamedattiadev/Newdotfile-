@@ -237,11 +237,14 @@ config.bind(
     mode='normal',
 )
 
+# for arabic layout 
+config.bind('ه','mode-enter insert',mode='normal')
+
 # -----------------------------------------------------------------------------
 # Search Engines
 # -----------------------------------------------------------------------------
 c.url.searchengines = {
-    'DEFAULT': 'https://duckduckgo.com/?q={}',
+        'DEFAULT': 'https://duckduckgo.com/?q={}',
     'g': 'https://www.google.com/search?q={}',
     'ddg': 'https://duckduckgo.com/?q={}',
     'br': 'https://search.brave.com/search?q={}',

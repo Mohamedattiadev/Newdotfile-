@@ -63,7 +63,7 @@ return {
   { " MunifTanjim/nui.nvim", enabled = false },
 
   -- Visual addons Prime does not use
-  { "folke/flash.nvim", enabled = false },
+  -- { "folke/flash.nvim", enabled = false },
   { "michaelb/sniprun", enabled = false },
 
   -- Optional extras (your choice)

@@ -4,17 +4,14 @@ from libqtile.lazy import lazy
 from libqtile import hook
 from libqtile.backend.base import Window
 
-sum_group = "S"
-sum_title = "nvimsum"
-sum_file = os.path.expanduser("~/.config/rofi/Todo_files/sum.md")
 obsidian_group = "S"
 obsidian_class = "obsidian"
 anki_group = "S"
-qute_group = "5"
+qute_group = "2"
 anki_class = "Anki"
 file_manager_class = "pcmanfm"
 qute_class = "qutebrowser"
-brave_group = "2"
+brave_group = "5"
 brave_class = "brave-browser"
 google_chrome_class = "google-chrome"
 terminal_class = "kitty"
@@ -291,38 +288,6 @@ def toggle_anki(qtile):
     qtile.cmd_spawn("anki")
 
 
-@lazy.function
-def toggle_sum(qtile):
-    current_group = qtile.current_group.name
-    current_win = qtile.current_window
-
-    target_win = _find_window_by_name(qtile, sum_title)
-
-    # Already in S and on sum → return back
-    if current_group == sum_group and current_win and current_win.name == sum_title:
-        if last_group[0]:
-            qtile.groups_map[last_group[0]].toscreen()
-        return
-
-    # Already in S but not on sum → switch inside S
-    if current_group == sum_group and target_win:
-        _focus_window_and_group(qtile, sum_group, target_win)
-        return
-
-    # Normal toggle: save last group
-    last_group[0] = current_group
-
-    if target_win:
-        _focus_window_and_group(qtile, sum_group, target_win)
-        return
-
-    # Not open → spawn it
-    if not os.path.exists(sum_file):
-        with open(sum_file, "w") as f:
-            f.write("")
-
-    qtile.groups_map[sum_group].toscreen()
-    qtile.cmd_spawn(f"kitty --title {sum_title} -e nvim {sum_file}")
 
 
 @lazy.function
