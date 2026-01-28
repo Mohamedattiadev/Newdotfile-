@@ -193,7 +193,8 @@ def toggle_fish_kitty_cheatsheet(qtile):
         PopupText(
             text=(
                 f'<span size="small" foreground="{COLORS["muted"]}">'
-                f'Esc to close · Fish + Kitty workflow'
+                f' · <b><span foreground="{COLORS["blue"]}">Esc to close ·</span></b> '
+                f' <span> the  Fish + Kitty workflow Cheatsheet · </span>'
                 f'</span>'
             ),
             markup=True,

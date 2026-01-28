@@ -244,7 +244,8 @@ def toggle_vim_cheatsheet(qtile):
         PopupText(
             text=(
                 f'<span size="small" foreground="{COLORS["muted"]}">'
-                f'Esc to close · Vim muscle memory edition'
+                f' · <b><span foreground="{COLORS["blue"]}">Esc to close ·</span></b> '
+                f' <span> the  Vim Cheatsheet · </span>'
                 f'</span>'
             ),
             markup=True,

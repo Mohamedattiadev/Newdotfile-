@@ -65,6 +65,16 @@ from popups.VimCheatsheet import  toggle_vim_cheatsheet , close_vim_cheatsheet, 
 from popups.FishCheatsheet import toggle_fish_kitty_cheatsheet , close_fish_kitty_cheatsheet, show_fish_kitty_cheatsheet
 from popups.QtileCheatsheet import toggle_cheatsheet, close_qtile_cheatsheet, show_qtile_cheatsheet
 
+from popups import WallpaperPopup
+from popups.WallpaperPopup import (
+    toggle_wallpaper_picker,
+    show_wallpaper_picker,
+    close_wallpaper_picker,
+    jump_to_random,
+    fuzzy_search_rofi,
+)
+
+
 # from pathlib import Path
 #
 # Make sure 'qtile-extras' is installed or this config will not work.
@@ -146,7 +156,11 @@ def kb_prev(qtile):
 # GLOBAL CHEATSHEET STATE (for Pyright & safety)
 # =============================================================================
 
+# =============================================================================
+# Wallpaper 
+# =============================================================================
 
+# =============================================================================
 ACTIVE_CHORD = None
 
 @hook.subscribe.enter_chord
@@ -171,6 +185,17 @@ def auto_enable_cheatsheet(chord_name):
     if chord_name == "CheatSheet-Mode":
         show_qtile_cheatsheet(qtile)
 
+@hook.subscribe.enter_chord
+def auto_enable_wallpaper_picker(chord_name):
+    if chord_name == "WallpaperPicker":
+
+        show_wallpaper_picker(qtile)
+   # Sync widget state
+        w = qtile.widgets_map.get("wallpaper_toggle")
+        if w and not w.box_is_open:
+            w.toggle()
+
+
 
 def exit_cheatsheet_mode(qtile):
     close_qtile_cheatsheet()
@@ -186,10 +211,18 @@ def cleanup_on_leave():
         qtile.spawn("gromit-mpx -v")  # force OFF, not toggle
 
         # exit_cheatsheet_mode(qtile)
-    if ACTIVE_CHORD == "CheatSheet-Mode":
-            close_qtile_cheatsheet()
-            close_vim_cheatsheet()
-            close_fish_kitty_cheatsheet()
+    elif ACTIVE_CHORD == "CheatSheet-Mode":
+        close_qtile_cheatsheet()
+        close_vim_cheatsheet()
+        close_fish_kitty_cheatsheet()
+
+    elif ACTIVE_CHORD == "WallpaperPicker":
+        close_wallpaper_picker()
+        # Sync widgetbox icon/state
+        w = qtile.widgets_map.get("wallpaper_toggle")
+        if w and w.box_is_open:
+            w.toggle()
+
 
     ACTIVE_CHORD = None
 
@@ -202,15 +235,24 @@ def group_keys():
 
 
 def set_kb(layout):
-    return lazy.function(
-        lambda q: q.widgets_map["keyboardlayout"].backend.set_keyboard(
+    return lazy.function(lambda q: (
+        q.spawn(f"setxkbmap {layout}"),
+        q.widgets_map["w_lang"].backend.set_keyboard(
             layout,
-            q.widgets_map["keyboardlayout"].option,
-        )
-    )
+            q.widgets_map["w_lang"].option,
+        ),
+        q.ungrab_chord(),   # IMPORTANT
+    ))
 
 
 
+def close_wallpaper_mode(qtile):
+    close_wallpaper_picker()
+    qtile.ungrab_chord()
+
+    w = qtile.widgets_map.get("wallpaper_toggle")
+    if w and w.box_is_open:
+        w.toggle()
 
 def groupbox_widget():
     return chip(
@@ -244,8 +286,19 @@ def left_side_widgets():
             scale="False",
             mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myTerm)},
         ),
-        groupbox_widget(),
 
+        # chip(ewidget.WidgetBox,
+        #      widgets=[
+        #              widget.TextBox(text="This widget is in the box"),
+        #                  widget.Memory()
+        #                      ]),
+        # chip(
+        #     ewidget.Wallpaper,
+        #     directory="~/Pictures/Wallpapers",
+        #     margin=5,
+        #     padding=13,
+        # ),
+        #
         # current layout
         chip(
             ewidget.CurrentLayout,
@@ -292,6 +345,7 @@ def left_side_widgets():
             foreground=colors[1],
             background=None,
 
+    fontshadow="#11111b00",   # 👈 THIS
             highlight_method="text",
             border=colors[7],
             borderwidth=0,
@@ -305,6 +359,110 @@ def left_side_widgets():
 
 def right_side_widgets():
     return [
+
+        # CPU
+        # chip(
+        #     ewidget.CPU,
+        #     name="w_cpu",
+        #     _hide_on_chord=True,
+        #     format="  {load_percent}%",
+        #     fontsize=10,
+        #     padding=11,
+        #     foreground=colors[5],
+        #     mouse_callbacks={
+        #         "Button1": lambda: qtile.cmd_spawn(
+        #             "env GTK_THEME=Adwaita:dark missioncenter"
+        #         )
+        #     },
+        # ),
+        #
+        # # Memory
+        # chip(
+        #     ewidget.Memory,
+        #     name="w_mem",
+        #     format="{MemUsed: .0f}{mm}",
+        #     fmt="🖥  {} ",
+        #     fontsize=10,
+        #     padding=11,
+        #     foreground=colors[8],
+        #     mouse_callbacks={
+        #         "Button1": lambda: qtile.cmd_spawn(myFullScreenTerm + " -e btop")
+        #     },
+        # ),
+        #
+        # # Battery
+        # chip(
+        #     ewidget.Battery,
+        #     name="w_battery",
+        #     format="  {char}{percent:2.0%}",
+        #     fontsize=10,
+        #     padding=12,
+        #     foreground=colors[6],
+        #     low_foreground=colors[3],
+        #     low_percentage=0.2,
+        #     charge_char=" ↑ ",
+        #     discharge_char=" ↓ ",
+        #     full_char="✔ ",
+        #     show_percentage=True,
+        #     show_short_text=False,
+        #     mouse_callbacks={
+        #         "Button1": lambda: qtile.cmd_spawn(
+        #             '/bin/sh -c \'notify-send "Battery Status" "$(acpi | cut -d "," -f 2-)"\''
+        #         )
+        #     },
+        # ),
+        #
+        # # Disk
+        # chip(
+        #     ewidget.DF,
+        #     name="w_disk",
+        #     update_interval=60,
+        #     partition="/",
+        #     format="{uf}{m}",
+        #     fmt="🖴  {}",
+        #     fontsize=10,
+        #     padding=11,
+        #     visible_on_warn=False,
+        #     foreground=colors[1],
+        #     mouse_callbacks={"Button1": lambda: qtile.spawn("disk_notify")},
+        # ),
+        #
+        # # Volume
+        # chip(
+        #     ewidget.Volume,
+        #     name="w_volume",
+        #     fmt="🕫  {}",
+        #     padding=11,
+        #     foreground=colors[7],
+        # ),
+        #
+        # # Keyboard layout
+        # chip(
+        #     ewidget.KeyboardLayout,
+        #     name="w_lang",
+        #     configured_keyboards=["us", "ara", "tr", "de"],
+        #     display_map={
+        #         "us": "🇺🇸 EN",
+        #         "ara": "🇸🇦 AR",
+        #         "tr": "🇹🇷 TR",
+        #         "de": "🇩🇪 DE",
+        #     },
+        #     fmt="{}",
+        #     padding=11,
+        #     foreground=colors[4],
+        # ),
+
+chip(
+    ewidget.WidgetBox,
+    name="system_widgetbox",
+    fontsize=14,
+    padding=10,
+    close_button_location="right",
+    start_opened=False,
+    text_closed="󰖯"
+    ,text_open="󰖰"
+,
+    widgets=[
         # CPU
         chip(
             ewidget.CPU,
@@ -331,9 +489,13 @@ def right_side_widgets():
             padding=11,
             foreground=colors[8],
             mouse_callbacks={
-                "Button1": lambda: qtile.cmd_spawn(myFullScreenTerm + " -e btop")
+                "Button1": lambda: qtile.cmd_spawn(
+                    myFullScreenTerm + " -e btop"
+                )
             },
         ),
+
+
 
         # Battery
         chip(
@@ -356,6 +518,61 @@ def right_side_widgets():
                 )
             },
         ),
+    ],
+
+    foreground=colors[7],
+)
+,
+
+
+
+
+chip(
+    ewidget.WidgetBox,
+    name="wallpaper_toggle",
+    widgets=[],  # 👈 EMPTY on purpose
+    padding=11,
+    fontsize=12,
+
+    text_closed="✖",
+    text_open="󰍜",  # same icon (state is logical, not visual)
+
+    close_button_location="right",
+    start_opened=False,
+
+    foreground=colors[8]  ,
+    mouse_callbacks={
+        "Button1": lazy.spawn(
+            "sh -c 'xdotool key Alt_L+p sleep 0.05 key b'"
+        )
+    },
+),
+chip(
+    ewidget.WidgetBox,
+    name="2nd_system_widgetbox",
+    fontsize=14,
+    padding=10,
+    close_button_location="right",
+    start_opened=False,
+text_closed="󰤂"
+,text_open="󰁂"
+
+# text_closed=""
+# text_open=""
+# text_closed="󰁂"
+# text_open="󰁁"
+# text_closed="󰍜"
+# text_open="󰍝"
+,
+    widgets=[
+
+
+        chip (              ewidget.CheckUpdates
+              , padding =11
+              ,  
+
+              ),
+
 
         # Disk
         chip(
@@ -397,7 +614,13 @@ def right_side_widgets():
             foreground=colors[4],
         ),
 
-        # Chord indicator
+
+        ]
+,
+foreground = colors[5],
+        ),
+
+
         chip(
             ewidget.Chord,
             name="chord_chip",
@@ -407,13 +630,14 @@ def right_side_widgets():
             background=None,
             name_transform=lambda name: {
                 "Resize-Mode": "󰩨   RESIZE : H, J, N",
-                "Rofi-Mode": "󰍉   ROFI : i , o , p , w , e , r , t , y , f , s , n  , h ",
+                "Rofi-Mode": "󰍉   ROFI : i , o , p , w , z , b , e , r , t , y , f , s , n , h ",
                 "Media-Mode": "󰕾   MEDIA : J , K , P , M ",
                 "Scratch-Mode": "󰈆   SCRATCH",
                 "Draw-Mode": "󰏫   DRAW : w , c , z , r , v ",
                 "Mouse-Mode": "󰍽   MOUSE : n , f , g , e , r , m ",
                 "Lang-Switch": "   LANG : a , e , t , d ",
                 "CheatSheet-Mode": "󰆍   CHEATSHEET : k , v , f ",
+                "WallpaperPicker": "󰸉   WALLPAPERS : / , h , j , k ,l , R , ENTER ",
             }.get(name, name.upper()),
         ),
 
@@ -426,8 +650,44 @@ def right_side_widgets():
             mouse_callbacks={"Button1": lambda: qtile.spawn("clock_popup")},
         ),
 
-        # Systray (IMPORTANT: only on ONE screen)
-        widget.Systray(padding=7, icon_size=14),
+
+chip(
+    ewidget.WidgetBox,
+    fontsize=11,
+    padding=11,
+
+#     text_closed="󰍜",
+#     text_open="|",
+#
+# text_closed="󰍜"   # tray / dots
+# ,text_open="󰍛"     # dots expanded
+
+# text_closed="󰁔"   # chevron down
+# text_open="󰁅"     # chevron up
+
+# text_closed="󰒓"   # system
+# ,text_open="󰒓"     # keep same (no jump)
+
+# text_closed="󰐙"   # expand
+# ,text_open="󰐘"     # collapse
+#
+text_closed="△"   # three dots vertical
+,text_open=""     # three dots horizontal
+
+
+,    start_opened=False,
+    close_button_location="right",
+
+    widgets=[
+        ewidget.Systray(
+            icon_size=14,
+            padding=6,
+            hide_crash=True,
+        ),
+    ],
+
+    foreground=colors[4],
+),
     ]
 
 #     ██╗  ██╗███████╗██╗   ██╗██████╗ ██╗███╗   ██╗██████╗ ██╗███╗   ██╗ ██████╗ ███████╗
@@ -439,6 +699,13 @@ def right_side_widgets():
 
 
 keys = [
+
+Key(
+    [mod2],
+    "grave",
+    lazy.widget["system_widgetbox"].toggle(),
+    desc="Toggle system widget box",
+),
 
    Key(
         [mod2, "shift"],
@@ -810,9 +1077,34 @@ keys = [
             # --- choose shared link-preview ---
             Key([], "z", lazy.spawn("rofi_shared"), desc="shared link-preview"),
             # --- Set background ---
-            Key([], "b", lazy.spawn("dm-setbg -r"), desc="Set background"),
+            # Key([], "b", lazy.spawn("dm-setbg -r"), desc="Set background"),
+KeyChord(
+        [], "b",
+    [
+
+# NAVIGATE LEFT / RIGHT
+            Key([], "h", lazy.function(lambda q: WallpaperPopup.move(0, -1))), 
+            Key([], "l", lazy.function(lambda q: WallpaperPopup.move(0, 1))),
+            Key([], "R", lazy.function(lambda q: WallpaperPopup.jump_to_random())), # <--- NEW: Random
+        Key([], "slash", lazy.function(lambda q: WallpaperPopup.fuzzy_search_rofi())), # <--- NEW: Search (/)
+            # NAVIGATE DOWN / UP
+            Key([], "j", lazy.function(lambda q: WallpaperPopup.move(1, 0))),
+            Key([], "k", lazy.function(lambda q: WallpaperPopup.move(-1, 0))),
+            
+            # ACTIONS
+            Key([], "Return", lazy.function(lambda q: WallpaperPopup.apply(q))),
+            Key([], "q", lazy.function(lambda q: WallpaperPopup.close_wallpaper_picker()) and lazy.ungrab_chord()),
+            Key([], "Escape", lazy.function(lambda q: WallpaperPopup.close_wallpaper_picker())),
+
+
+    ],
+
+        mode=True,
+        name="WallpaperPicker",
+        desc="Wallpaper picker mode",
+    ),
             # --- show documents ---
-            Key([], "d", lazy.spawn("dm-documents -r"), desc="Set background"),
+            Key([], "d", lazy.spawn("dm-documents -r"), desc="Show documents"),
             # make a screenshot of today's todos
             Key(
                 [],
@@ -1020,15 +1312,17 @@ KeyChord(
 KeyChord(
     [mod2],
     "space",
-  [
+    [
+        Key([], 26, set_kb("us")),   # e
+        Key([], 38, set_kb("ara")),  # a
+        Key([], 28, set_kb("tr")),   # t
+        Key([], 40, set_kb("de")),   # d
 
-       # NOTE: keycodes used to stay layout-agnostic (Arabic-safe)
-        Key([], 26, set_kb("us")),   # physical 'e' key
-        Key([], 38, set_kb("ara")),  # physical 'a' key
-        Key([], 28, set_kb("tr")),   # physical 't' key
-        Key([], 40, set_kb("de")),   # physical 'd' key
-    ],    name="Lang-Switch",
-    mode=False,   # 👈 VERY important
+        Key([], "Escape", lazy.ungrab_chord()),
+        Key([], "q", lazy.ungrab_chord()),
+    ],
+    name="Lang-Switch",
+    mode=True,
     swallow=True,
 )
 
@@ -1061,6 +1355,34 @@ Key(
     mode=True,
     swallow=True,
 ),
+
+#   KeyChord(
+#         ["mod4"], "w",
+#     [
+#
+# # NAVIGATE LEFT / RIGHT
+#             Key([], "h", lazy.function(lambda q: WallpaperPopup.move(0, -1))), 
+#             Key([], "l", lazy.function(lambda q: WallpaperPopup.move(0, 1))),
+#             Key([], "R", lazy.function(lambda q: WallpaperPopup.jump_to_random())), # <--- NEW: Random
+#         Key([], "slash", lazy.function(lambda q: WallpaperPopup.fuzzy_search_rofi())), # <--- NEW: Search (/)
+#             # NAVIGATE DOWN / UP
+#             Key([], "j", lazy.function(lambda q: WallpaperPopup.move(1, 0))),
+#             Key([], "k", lazy.function(lambda q: WallpaperPopup.move(-1, 0))),
+#             
+#             # ACTIONS
+#             Key([], "Return", lazy.function(lambda q: WallpaperPopup.apply(q))),
+#             Key([], "q", lazy.function(lambda q: WallpaperPopup.close_wallpaper_picker())),
+#             Key([], "Escape", lazy.function(lambda q: WallpaperPopup.close_wallpaper_picker())),
+#
+#
+#     ],
+#
+#         mode=True,
+#         name="WallpaperPicker",
+#         desc="Wallpaper picker mode",
+#     )
+
+
 
 ]
 
@@ -1499,6 +1821,8 @@ CHORD_CHIP_COLORS = {
     "Lang-Switch": colorsW[1],
     "CheatSheet-Mode": colorsW[3],
     
+    "WallpaperPicker": colorsW[3],
+    
 }
 
 
@@ -1841,7 +2165,7 @@ def init_widgets_list():
 
         ewidget.Spacer(length=bar.STRETCH),
 
-
+        groupbox_widget(),
         ewidget.Spacer(length=bar.STRETCH),
 
         *right_side_widgets(),

@@ -84,6 +84,8 @@ CHEATSHEET = {
         ("Telegram session", "Super + Shift + t"),
         ("Anki session", "Super + Shift + a"),
         ("Todos Preview", "Super + p"),
+        ("Cpu-Memo-Battery widget", "Super + `"),
+
     ],
 
     "Scratchpads": [
@@ -118,7 +120,11 @@ CHEATSHEET = {
     "ROFI MODE": [
         ("Translate text", "e"),
         ("Add Anki note", "a"),
+        ("Screenshots", "i"),
+        ("man pages", "m"),
+        ("Video recorder", "r"),
         ("Close All notifications", "x"),
+        ("Light / Britness", "l"),
         ("Config editor", "f"),
         ("Password menu", "p"),
         ("YouTube menu", "y"),
@@ -126,7 +132,8 @@ CHEATSHEET = {
         ("Spell check", "s"),
         ("Weather", "w"),
         ("Todo manager", "t"),
-        ("logout menu", "q"),
+        ("Wallpaper picker", "b"),
+        ("Saved Links", "z"),
     ],
 
     "RESIZE MODE": [
@@ -149,6 +156,7 @@ CHEATSHEET = {
         ("English", "e"),
         ("Turkish", "t"),
         ("German", "d"),
+        ("Exit mode", "Esc"),
     ],
 }
 
@@ -255,8 +263,8 @@ def toggle_cheatsheet(qtile):
         PopupText(
             text=(
                 f'<span size="small" foreground="{COLORS["muted"]}">'
-                f' · <b><span foreground="{COLORS["blue"]}">Super + Shift + k</span></b> '
-                f'to toggle the cheatsheet · </span>'
+                f' · <b><span foreground="{COLORS["blue"]}">Esc to close ·</span></b> '
+                f' the Qtile Cheatsheet · </span>'
             ),
             markup=True,
             pos_x=0.0,
