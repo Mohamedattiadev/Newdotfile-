@@ -1,4 +1,4 @@
 __pycache__/
 *.pyc
 
-piper-voices/*
+piper-voices
