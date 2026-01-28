@@ -28,7 +28,7 @@ _CURRENT_WALL = None
 # =============================================================================
 # CONFIG & STYLING
 # =============================================================================
-WALLPAPER_DIR = os.path.expanduser("~/Pictures/wallpapers")
+WALLPAPER_DIR = os.path.expanduser("~/Pictures/Wallpapers")
 CACHE_WALL = os.path.expanduser("~/.cache/wall")
 CACHE_THUMBS = os.path.expanduser("~/.cache/qtile_thumbs")
 
