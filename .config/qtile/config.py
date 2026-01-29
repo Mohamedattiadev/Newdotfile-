@@ -77,6 +77,39 @@ from popups.WallpaperPopup import (
 )
 
 
+def is_arabic_layout(qtile):
+    w = qtile.widgets_map.get("w_lang")
+    if not w:
+        return False
+    return w.backend.get_keyboard() == "ara"
+
+
+
+
+@lazy.function
+def notify_arabic_block(qtile, action_name="This shortcut"):
+    if not is_arabic_layout(qtile):
+        return
+
+    qtile.spawn(
+        'notify-send '
+        '-r 991 '                  # replace instead of stacking
+        '-u normal '
+        '-t 5000 '
+        '"Arabic Layout Active" '
+        f'"{action_name} does not work in Arabic layout\nSwitch to English (EN)"'
+    )
+
+@lazy.function
+def go_to_group_or_notify(qtile, group_name):
+    current = qtile.current_group.name
+
+    if current == group_name:
+        qtile.spawn(
+            f'notify-send -u normal -t 5000  "Qtile" "You are already in workspace {group_name}"'
+        )
+    else:
+        qtile.groups_map[group_name].toscreen()
 
 def toggle_onboarding(qtile):
     w = qtile.widgets_map.get("tooltip_widgetbox")
@@ -304,7 +337,12 @@ def cleanup_on_leave():
 
 def group_keys():
     return [
-        Key([], str(i), lazy.group[str(i)].toscreen())
+        Key(
+            [],
+            str(i),
+            go_to_group_or_notify(str(i)),
+            desc=f"Switch to group {i}",
+        )
         for i in range(1, 10)
     ]
 
@@ -1391,6 +1429,7 @@ KeyChord(
     [mod2, "shift"],
     "w",
     [
+
         Key([], "w", lazy.spawn("gromit-mpx -t"), desc="Gromit: toggle draw"),
         Key([], "c", lazy.spawn("gromit-mpx -c"), desc="Gromit: clear "),
         Key([], "z", lazy.spawn("gromit-mpx -z"), desc="Gromit: undo "),
@@ -1645,12 +1684,13 @@ for i in groups:
     keys.extend(
         [
             # mod + group letter = switch to group
-            Key(
-                [mod],
-                i.name,
-                lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name),
-            ),
+Key(
+    [mod],
+    i.name,
+    go_to_group_or_notify(i.name),
+    desc=f"Switch to group {i.name}",
+),
+
             Key(
                 [mod, "shift"],
                 i.name,
