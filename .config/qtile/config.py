@@ -29,8 +29,10 @@ import re
 import subprocess
 from libqtile.backend.base import Window
 import time
+from datetime import datetime, timedelta
 from typing import Optional
 # import logging
+import threading
 from libqtile import bar, extension, hook, layout, qtile, widget
 from qtile_extras.widget.decorations import RectDecoration, BorderDecoration
 from qtile_extras import widget as ewidget  # use extras’ widgets
@@ -74,6 +76,80 @@ from popups.WallpaperPopup import (
     fuzzy_search_rofi,
 )
 
+
+
+def toggle_onboarding(qtile):
+    w = qtile.widgets_map.get("tooltip_widgetbox")
+    if not w:
+        return
+
+    if w.box_is_open:
+        # 🔴 closing
+        qtile.cmd_spawn("pkill eww")
+        w.toggle()
+    else:
+        # 🟢 opening
+        qtile.cmd_spawn(
+            "sh -c 'pkill eww; eww daemon & eww open onboarding-welcome'"
+        )
+        w.toggle()
+
+
+ARCH_ICON_MAIN = "󰕰"
+
+# 󰒓   # system / hub (you already use this – excellent choice)
+# 󰘳   # dashboard
+# 󰍜   # control center
+# 󰍝   # control center (alt)
+# 󰐙   # expand
+# 󰐘   # collapse
+# 󰆍   # terminal
+# 󰆍   # console (alt font)
+#     # terminal (classic NF)
+# 󰞷   # code
+# 󰙯   # dev tools
+# 󰒔   # tools panel
+
+# 󰣇   # Arch Linux (best available)
+#      # Arch (space-balanced, classic)
+#     # Arch (old, left-heavy)
+# 󰍉   # launcher (rofi vibe)
+# 󰆍   # menu / list
+# 󰌧   # grid launcher
+# 󰕰   # apps
+# 󰕱   # apps filled
+#
+#
+# 󰌽   # Linux
+# 󰣚   # Linux outline
+# 󰌾   # Tux variant
+def set_icon_temporarily(qtile, icon, cmd):
+    w = qtile.widgets_map.get("arch_icon_chip")
+    if not w:
+        return
+
+    # update icon immediately
+    w.update(icon)
+
+    # spawn app
+    qtile.cmd_spawn(cmd)
+
+    # reset icon shortly after
+    def reset():
+        time.sleep(0.3)  # small delay so user sees the icon
+        w.update(ARCH_ICON_MAIN)
+
+    threading.Thread(target=reset, daemon=True).start()
+
+def open_terminal(qtile):
+    set_icon_temporarily(qtile, "󰞷", myTerm)
+
+def open_launcher(qtile):
+    set_icon_temporarily(
+        qtile,
+        "󰍉",
+        "rofi -show drun -show-icons",
+    )
 
 # from pathlib import Path
 #
@@ -278,14 +354,34 @@ def groupbox_widget():
 def left_side_widgets():
     return [
         # logo
-        chip(
-            ewidget.Image,
-            filename="~/.config/qtile/icons/archLogo.png",
-            margin=5,
-            padding=13,
-            scale="False",
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myTerm)},
-        ),
+        #
+        # chip(
+        #     ewidget.Image,
+        #     filename="~/.config/qtile/icons/archLogo.png",
+        #     margin=5,
+        #     padding=13,
+        #     scale="False",
+        #     mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myTerm)},
+        # ),
+        #     # Arch outline
+        #     # Arch logo (older NF)
+        #     # Arch filled (rare)
+
+  
+# 󰣇
+chip(
+    ewidget.TextBox,
+    name="arch_icon_chip",
+    text=ARCH_ICON_MAIN,
+    fontsize=15,
+    padding=11,
+    foreground=colors[7],
+    mouse_callbacks={
+        "Button1": lazy.function(open_terminal),  # left click
+        "Button3": lazy.function(open_launcher),  # right click
+    },
+),
+
 
         # chip(ewidget.WidgetBox,
         #      widgets=[
@@ -345,7 +441,6 @@ def left_side_widgets():
             foreground=colors[1],
             background=None,
 
-    fontshadow="#11111b00",   # 👈 THIS
             highlight_method="text",
             border=colors[7],
             borderwidth=0,
@@ -451,6 +546,30 @@ def right_side_widgets():
         #     padding=11,
         #     foreground=colors[4],
         # ),
+
+
+chip(
+    ewidget.WidgetBox,
+    name="tooltip_widgetbox",
+
+    widgets=[],  # 👈 empty on purpose
+
+    padding=11,
+    fontsize=13,
+
+
+text_closed="󰌶"   # dot-outline
+,text_open="󰌵"     # dot-filled
+,    close_button_location="right",
+    start_opened=False,
+
+    foreground=colors[1],
+
+    mouse_callbacks={
+        "Button1": lazy.function(toggle_onboarding),
+    },
+),
+
 
 chip(
     ewidget.WidgetBox,
@@ -704,6 +823,12 @@ Key(
     [mod2],
     "grave",
     lazy.widget["system_widgetbox"].toggle(),
+    desc="Toggle system widget box",
+),
+Key(
+    [mod],
+    "grave",
+    lazy.widget["2nd_system_widgetbox"].toggle(),
     desc="Toggle system widget box",
 ),
 
