@@ -118,13 +118,11 @@ def toggle_onboarding(qtile):
 
     if w.box_is_open:
         # 🔴 closing
-        qtile.cmd_spawn("pkill eww")
+        qtile.cmd_spawn("eww close onboarding-welcome")
         w.toggle()
     else:
         # 🟢 opening
-        qtile.cmd_spawn(
-            "sh -c 'pkill eww; eww daemon & eww open onboarding-welcome'"
-        )
+        qtile.cmd_spawn("eww open onboarding-welcome")
         w.toggle()
 
 
@@ -284,10 +282,38 @@ def auto_enable_warpd(chord_name):
     if chord_name == "Mouse-Mode":
         qtile.spawn("warpd --normal")
 
+
+def ensure_gromit_and_toggle(qtile):
+    try:
+        subprocess.run(
+            ["pgrep", "-x", "gromit-mpx"],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        # already running → just toggle draw
+        qtile.spawn("gromit-mpx -t")
+
+    except subprocess.CalledProcessError:
+        # not running
+        qtile.spawn(
+            'notify-send -u normal -t 4000 '
+            '"Gromit MPX" "Gromit was not running — starting it now…"'
+        )
+
+        qtile.spawn("gromit-mpx")
+
+        # wait a bit, then toggle draw
+        qtile.call_later(
+            0.3,
+            lambda: qtile.spawn("gromit-mpx -t")
+        )
+
+
 @hook.subscribe.enter_chord
 def auto_enable_draw(chord_name):
     if chord_name == "Draw-Mode":
-        qtile.spawn("gromit-mpx -t")
+        ensure_gromit_and_toggle(qtile)
 
 @hook.subscribe.enter_chord
 def auto_enable_cheatsheet(chord_name):
@@ -348,16 +374,47 @@ def group_keys():
 
 
 
-def set_kb(layout):
-    return lazy.function(lambda q: (
-        q.spawn(f"setxkbmap {layout}"),
-        q.widgets_map["w_lang"].backend.set_keyboard(
-            layout,
-            q.widgets_map["w_lang"].option,
-        ),
-        q.ungrab_chord(),   # IMPORTANT
-    ))
 
+
+
+NON_EN_NOTIFY_ID = 9001
+
+def show_layout_warning(qtile, layout):
+    layout_name = layout.upper()
+
+    qtile.spawn(
+        'notify-send '
+        f'-r {NON_EN_NOTIFY_ID} '
+        '-u critical '
+        '-t 0 '
+        '"Non-English Layout Active" '
+        f'"Current layout: {layout_name}\n'
+        'Many shortcuts may not work.\n'
+        'Switch to EN (US) to use all shortcuts."'
+    )
+
+def hide_layout_warning(qtile):
+    qtile.spawn(
+        f'notify-send -r {NON_EN_NOTIFY_ID} -t 1 "" ""'
+    )
+
+def set_kb(layout):
+    @lazy.function
+    def _set(qtile):
+        qtile.spawn(f"setxkbmap {layout}")
+
+        w = qtile.widgets_map.get("w_lang")
+        if w:
+            w.backend.set_keyboard(layout, w.option)
+
+        # 🔔 show warning for ANY non-EN layout
+        if layout != "us":
+            show_layout_warning(qtile, layout)
+        else:
+            hide_layout_warning(qtile)
+
+        qtile.ungrab_chord()   # IMPORTANT
+    return _set
 
 
 def close_wallpaper_mode(qtile):
@@ -756,21 +813,6 @@ text_closed="󰤂"
         ),
 
         # Keyboard layout
-        chip(
-            ewidget.KeyboardLayout,
-            name="w_lang",
-            configured_keyboards=["us", "ara", "tr", "de"],
-            display_map={
-                "us": "🇺🇸 EN",
-                "ara": "🇸🇦 AR",
-                "tr": "🇹🇷 TR",
-                "de": "🇩🇪 DE",
-            },
-            fmt="{}",
-            padding=11,
-            foreground=colors[4],
-        ),
-
 
         ]
 ,
@@ -796,6 +838,21 @@ foreground = colors[5],
                 "CheatSheet-Mode": "󰆍   CHEATSHEET : k , v , f ",
                 "WallpaperPicker": "󰸉   WALLPAPERS : / , h , j , k ,l , R , ENTER ",
             }.get(name, name.upper()),
+        ),
+
+        chip(
+            ewidget.KeyboardLayout,
+            name="w_lang",
+            configured_keyboards=["us", "ara", "tr", "de"],
+            display_map={
+                "us": "🇺🇸 EN",
+                "ara": "🇸🇦 AR",
+                "tr": "🇹🇷 TR",
+                "de": "🇩🇪 DE",
+            },
+            fmt="{}",
+            padding=11,
+            foreground=colors[4],
         ),
 
         # Clock

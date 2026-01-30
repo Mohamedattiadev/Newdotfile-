@@ -35,7 +35,6 @@
     ;; ----------------------------
     (label
       :class "onb-text"
-      :wrap true
       :unindent true
       :text
 "Workspaces help you organize your windows.
@@ -46,7 +45,6 @@
 (label
 :class "onb-text"
 :unindent true
-:warp true
 :markup "<b>Tip :</b>
 Workspaces ( 1,6,7,8 ) are  <b><span foreground=\"#98be65\">Free</span></b> , workspace 2 for <b><span foreground=\"#ff6c6b\">Video</span></b>,
 3 for <b><span foreground=\"#51afef\">File Manager</span></b> , 4 for <b><span foreground=\"#46d9ff\">Video</span></b> , 5 for <b><span foreground=\"#c678dd\">Browser</span></b>
@@ -64,10 +62,13 @@ Workspaces ( 1,6,7,8 ) are  <b><span foreground=\"#98be65\">Free</span></b> , wo
       (button
         :class "onb-btn"
         :onclick "eww close onboarding-workspaces; eww open bar-tooltip"
+        :timeout  "900ms"
+        ;; :onclick "sh -c 'eww close onboarding-workspaces; eww open bar-tooltip'"
         "Back")
 
       (button
         :class "onb-btn onb-btn-Apply"
+        :timeout  "900ms"
         :onclick "sh -c 'eww close onboarding-workspaces; eww open onboarding-keybindings; (sleep 5; xdotool key Super_L+Shift+k) &'"
         "Next")
     )

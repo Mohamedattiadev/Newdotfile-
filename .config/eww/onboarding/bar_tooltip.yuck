@@ -67,7 +67,6 @@
           :class "bar-overlay"
           :halign "end"
           :valign "center"
-          :padding "0 12px"
 
           (label
             :class "bar-overlay-text"
@@ -117,7 +116,7 @@
 "Right-side widgets:  (collapsed widgets) :
 • <span foreground=\"#98be65\">△</span>  : system tray 
 • <span foreground=\"#ff6c6b\">󰤂</span>   : CPU, memory, and battery status
-• <span foreground=\"#c678dd\">󰖯</span>   : Update , Language , Volume and Disk status
+• <span foreground=\"#c678dd\">󰖯</span>   : Update , Volume and Disk status
 • <b><span foreground=\"#46d9ff\">x</span></b>   : wallpaper launcher
 • <b><span foreground=\"#ffffff\">󰌶</span></b>   : Tooltip (current opened app)
 "
@@ -141,11 +140,15 @@
     (button
       :class "onb-btn"
       :onclick "eww close bar-tooltip; eww open onboarding-welcome"
+      :timeout  "900ms"
+        ;; :onclick "sh -c 'eww close bar-tooltip; eww open onboarding-welcome'"
       "Back")
 
     (button
       :class "onb-btn onb-btn-Apply"
       :onclick "eww close bar-tooltip; eww open onboarding-workspaces"
+        :timeout  "900ms"
+        ;; :onclick "sh -c 'eww close bar-tooltip; eww open onboarding-workspaces'"
       "Next")
   )
 

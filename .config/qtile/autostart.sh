@@ -43,6 +43,7 @@ dunst &          # Notification daemon
 nm-applet &      # Network tray icon
 copyq &          # Clipboard manager
 warpd &          # waprd daemon
+eww daemon       # EWW daemon
 
 # ---------------------------------------------------------
 # 2. Wallpaper setup
