@@ -38,7 +38,7 @@ main() {
   # An array of options to choose.
   declare -a options=(
     "Lock screen"
-    "Logout"
+    "Logout (terminate session)"
     "Refresh the PC"
     "Reboot"
     "Shutdown"
@@ -68,14 +68,14 @@ main() {
       output "User cancelled refresh." && exit 0
     fi
     ;;
-  'Logout')
+  'Logout (terminate session)')
     if [[ "$(echo -e "No\nYes" | ${MENU} "${choice}?")" == "Yes" ]]; then
-      if [[ $manager = "Qtile" ]]; then
-        qtile cmd-obj -o cmd -f shutdown || echo "Qtile not running."
+      notify-send "Qtile" "Ending session…"
+
+      if [[ -n "${XDG_SESSION_ID:-}" ]]; then
+        loginctl terminate-session "$XDG_SESSION_ID"
       else
-        for manager in "${managers[@]}"; do
-          loginctl kill-user "$UID"
-        done
+        loginctl terminate-seat seat0
       fi
     else
       output "User chose not to logout." && exit 1
