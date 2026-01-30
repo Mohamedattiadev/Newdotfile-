@@ -7,22 +7,8 @@
 # Every section is labeled and explained.
 
 COLORSCHEME=DoomOne
-#----------------------------------------------------------
-# -1. keymaps (capslock , alt issues solver)
-#----------------------------------------------------------
-setxkbmap -layout us -option
-xmodmap ~/.Xmodmap
-
-# NOTE:replaced
-# (
-#   sleep 2
-#   setxkbmap -layout us,ara -option grp:caps_toggle,grp_led:caps
-#   notify-send "capslock layout set"
-# ) &
-# setxkbmap -layout us,ara -option grp:caps_toggle,grp_led:caps
-
 # ---------------------------------------------------------
-# 0. Pre-X configuration
+# 1. Pre-X configuration
 # ---------------------------------------------------------
 # If you're running inside a virtual machine, apply resolution fix.
 # This runs ONLY in VM, and silently exits on normal hardware.
@@ -30,49 +16,19 @@ xmodmap ~/.Xmodmap
 # (systemd-detect-virt | grep -qv none && ~/.config/qtile/scripts/set_vm_resolution.sh) &
 
 # ---------------------------------------------------------
-# 1. Core environment (ESSENTIAL FAST START)
+# 2. Core environment (ESSENTIAL FAST START)
 # ---------------------------------------------------------
 # These should start IMMEDIATELY without delays.
 # Avoid slow apps here — keep this section lightweight.
 
-# ~/.screenlayout/layout.sh & # Apply monitor setup
-# lxsession &
-blueman-applet & # Bluetooth tray icon
-picom &          # Compositor (transparency, animations)
-dunst &          # Notification daemon
-nm-applet &      # Network tray icon
-copyq &          # Clipboard manager
-warpd &          # waprd daemon
-eww daemon       # EWW daemon
-
-# ---------------------------------------------------------
-# 2. Wallpaper setup
-# ---------------------------------------------------------
-# Loads wallpaper without blocking the Qtile startup.
-
-nitrogen --restore &
-
-# ---------------------------------------------------------
-# Additionals - CONKY
-# ---------------------------------------------------------
-
-### SETS CONKY STYLE BASED ON SCREEN RESOLUTION
-# Checks screen resolution.  If 1080p or higher, then we use '01' conky.
-# If less than 1080p (laptops?), then we use the smaller '02' conky.
-
-# if [[ $resolutionHeight -ge 1080 ]]; then
-# 	killall conky || echo "Conky not running."
-# 	# sleep 2
-# 	conky -c "$HOME"/.config/conky/qtile/01/"$COLORSCHEME".conf || echo "Couldn't start conky."
-# elif [[ $resolutionHeight -lt 1080 ]]; then
-# 	killall conky || echo "Conky not running."
-# 	# sleep 2
-# 	conky -c "$HOME"/.config/conky/qtile/02/"$COLORSCHEME".conf || echo "Couldn't start conky."
-# else
-# 	killall conky || echo "Conky not running."
-# 	# sleep 2
-# 	conky -c "$HOME"/.config/conky/qtile/02/"$COLORSCHEME".conf || echo "Couldn't start conky."
-# fi
+(
+  dunst &          # Notification daemon
+  nm-applet &      # Network tray icon
+  blueman-applet & # Bluetooth tray icon
+  copyq &          # Clipboard manager
+  warpd &          # waprd daemon
+  eww daemon       # EWW daemon
+) &
 
 # ---------------------------------------------------------
 # 3. Light background apps
@@ -96,23 +52,17 @@ pamac-tray-icon-plasma & # Update notifier
 # ) &
 
 # ---------------------------------------------------------
-# 5. Optional Brave auto-start (comment out if you don't want it)
+# 5. start youtube on browser
 # ---------------------------------------------------------
-# Starts Brave after system settles.
-
-# (
-#   sleep 8
-#   brave --new-window https://www.youtube.com \  # https://yewtu.be/  instead of youtube
-#   --disable-sync \
-#     --disable-breakpad \
-#     --disable-features=Translate,AutofillServerCommunication \
-#     --no-first-run \
-#     --process-per-site
-# ) &
 
 (
   sleep 8
-  qutebrowser --target window https://yewtu.be/
+  # The --qt-flag disable-gpu option is required to avoid startup crashes
+  # on some systems (e.g. Arch Linux on Intel iGPUs such as the Dell Latitude E7270).
+  qutebrowser \
+    --qt-flag disable-gpu \
+    --target window \
+    https://yewtu.be/
 ) &
 
 # ---------------------------------------------------------
@@ -123,34 +73,16 @@ pamac-tray-icon-plasma & # Update notifier
 (
   sleep 40
   keyboard_layout_watcher &
-  # ~/.config/qtile/scripts/watch_todo_conflicts.sh &
   adhkar &
   battery-events &
+  # ~/.config/qtile/scripts/watch_todo_conflicts.sh &
 ) &
 
 # ---------------------------------------------------------
-# 7. Late utilities
-# ---------------------------------------------------------
-# Gromit-mpx (screen annotation tool) starts much later to avoid interfering
-# with early session setup.
-
-# (
-#   sleep 120
-#   gromit-mpx &
-# ) &
-
-# ---------------------------------------------------------
-# 8. Neovim Daemon (IMPORTANT)
+# 7. Neovim Daemon (IMPORTANT)
 # ---------------------------------------------------------
 # Creates a tmux session that hosts Neovim as a server.
 # Makes edits launch instantly in your environment.
-
-# (
-#   sleep 20
-#   if ! tmux has-session -t nvd 2>/dev/null; then
-#     tmux new-session -s nvd -d "nvim --listen /tmp/nvimsocket"
-#   fi
-# ) &
 
 # Always ensure tmux session "nvd" exists, but only with a shell
 if ! tmux has-session -t nvd 2>/dev/null; then
