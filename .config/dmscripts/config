@@ -24,7 +24,7 @@ DMBROWSER="qutebrowser "
 DMTERM="alacritty -e"
 # DMEDITOR="emacsclient -c -a emacs"
 DMEDITOR="${DMTERM} nvim"
-DMLOCKER='betterlockscreen -l blur'
+DMLOCKER='betterlockscreen -l'
 
 # dmscripts will notify you if your configuration is outdated.
 # To shut it up uncomment this line.

@@ -161,6 +161,10 @@ end
 #     printf $output
 # end
 
+function letsgo
+    exec dbus-run-session startx
+end
+
 ### END OF FUNCTIONS ###
 
 ### ALIASES ###
