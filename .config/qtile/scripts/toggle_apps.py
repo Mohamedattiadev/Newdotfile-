@@ -1,8 +1,7 @@
-# scripts/toggle_apps.py
-import os
+
 from libqtile.lazy import lazy
 from libqtile import hook
-from libqtile.backend.base import Window
+from libqtile.backend.base.window import Window
 
 obsidian_group = "S"
 obsidian_class = "obsidian"
@@ -30,11 +29,11 @@ def _focus_window_and_group(qtile, group_name, window: Window):
         qtile.current_group.focus(window, warp=True)
 
 
-def _find_window_by_name(qtile, name: str):
-    for w in qtile.windows_map.values():
-        if w.name == name:
-            return w
-    return None
+# def _find_window_by_name(qtile, name: str):
+#     for w in qtile.windows_map.values():
+#         if w.name == name:
+#             return w
+#     return None
 
 
 def _find_window_by_class(qtile, cls: str):
@@ -46,14 +45,14 @@ def _find_window_by_class(qtile, cls: str):
     return None
 
 
-def _find_window_by_class_sensitive(qtile, cls: str):
-    """Find a window by wm_class (case-insensitive)."""
-    for w in qtile.windows_map.values():
-        if isinstance(w, Window):
-            wm_class = w.get_wm_class()
-            if wm_class and any(cls.lower() in c.lower() for c in wm_class):
-                return w
-    return None
+# def _find_window_by_class_sensitive(qtile, cls: str):
+#     """Find a window by wm_class (case-insensitive)."""
+#     for w in qtile.windows_map.values():
+#         if isinstance(w, Window):
+#             wm_class = w.get_wm_class()
+#             if wm_class and any(cls.lower() in c.lower() for c in wm_class):
+#                 return w
+#     return None
 
 
 # --- toggle apps ---
@@ -385,7 +384,7 @@ def auto_return_after_obsidian_killed(window):
         window.qtile.groups_map[last_group[0]].toscreen()
 
 
-@hook.subscribe.client_killed
-def auto_return_after_sum_killed(window):
-    if window.name == sum_title and last_group[0]:
-        window.qtile.groups_map[last_group[0]].toscreen()
+# @hook.subscribe.client_killed
+# def auto_return_after_sum_killed(window):
+#     if window.name == sum_title and last_group[0]:
+#         window.qtile.groups_map[last_group[0]].toscreen()

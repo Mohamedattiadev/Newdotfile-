@@ -1,7 +1,5 @@
-
-# scripts/float_windows.py
 from libqtile import hook
-from libqtile.lazy import lazy
+
 @hook.subscribe.client_new
 def float_satty(window):
     if window.window.get_wm_class() and 'satty' in window.window.get_wm_class()[0].lower():
